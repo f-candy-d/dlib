@@ -48,13 +48,21 @@ void forked_linked_list<T>::push_back_hor_list(const T &def_val)
 template <typename T>
 void forked_linked_list<T>::push_front_ver_list(const T &def_val)
 {
+	if(height_ == 0)
+		return;
 
+	origin_ = join_ver_list(build_ver_list(height_, def_val), origin_);
+	set_size(width_ + 1, height_);
 }
 
 template <typename T>
 void forked_linked_list<T>::push_front_hor_list(const T &def_val)
 {
+	if(width_ == 0)
+		return;
 
+	origin_ = join_hor_list(build_hor_list(width_, def_val), origin_);
+	set_size(width_, height_ + 1);
 }
 
 template <typename T>
@@ -86,13 +94,27 @@ void forked_linked_list<T>::pop_back_hor_list()
 template <typename T>
 void forked_linked_list<T>::pop_front_ver_list()
 {
+	if(origin_ != nullptr)
+	{
+		auto np = origin_->h_next;
+		scrap_ver_list(origin_);
+		origin_ = np;
 
+		set_size(width_ - 1, height_);
+	}
 }
 
 template <typename T>
 void forked_linked_list<T>::pop_front_hor_list()
 {
+	if(origin_ != nullptr)
+	{
+		auto np = origin_->v_next;
+		scrap_hor_list(origin_);
+		origin_ = np;
 
+		set_size(width_, height_ - 1);
+	}
 }
 
 template <typename T>
@@ -112,7 +134,10 @@ forked_linked_list<T>::erase_hor_list(iterator previous)
 template <typename T>
 void forked_linked_list<T>::clear()
 {
-	origin_ = nullptr;
+	while(origin_ != nullptr)
+	{
+		pop_front_hor_list();
+	}
 }
 
 template <typename T>
@@ -128,7 +153,7 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 	{
 		clear();
 	}
-	else if(size() == 0)
+	else if(origin_ == nullptr)
 	{
 		origin_ = build(width, height, def_val);
 	}
@@ -183,20 +208,11 @@ forked_linked_list<T>::build(size_t width, size_t height, const T &def_val)
 
 	// create a base list
 	auto origin = build_hor_list(width, def_val);
-	auto v_np = origin;
 
+	auto v_np = origin;
 	for(size_t i = 1; i < height; ++i)
 	{
-		auto h_np = v_np;
-		auto h_np2 = build_hor_list(width, def_val);
-
-		for(size_t j = 0; j < width; ++j)
-		{
-			h_np->v_next = h_np2;
-			// move to the right node
-			h_np = h_np->h_next;
-			h_np2 = h_np2->h_next;
-		}
+		join_hor_list(v_np, build_hor_list(width, def_val));
 
 		// move to the node above
 		v_np = v_np->v_next;
@@ -240,6 +256,54 @@ void forked_linked_list<T>::set_size(size_t width, size_t height)
 {
 	width_ = width;
 	height_ = height;
+}
+
+template <typename T>
+typename forked_linked_list<T>::node*
+forked_linked_list<T>::join_ver_list(node* left, node* right)
+{
+	for(auto l_itr = iterator(left, itr_dir::kVertical), r_itr = iterator(right, itr_dir::kVertical);
+		l_itr != vend() && r_itr != vend();
+		++l_itr, ++r_itr)
+	{
+		l_itr.nodep()->h_next = r_itr.nodep();
+	}
+
+	return left;
+}
+
+template <typename T>
+typename forked_linked_list<T>::node*
+forked_linked_list<T>::join_hor_list(node* below, node* above)
+{
+	for(auto b_itr = iterator(below, itr_dir::kHorizontal), a_itr = iterator(above, itr_dir::kHorizontal);
+		b_itr != vend() && a_itr != vend();
+		++b_itr, ++a_itr)
+	{
+		b_itr.nodep()->v_next = a_itr.nodep();
+	}
+
+	return below;
+}
+
+template <typename T>
+void forked_linked_list<T>::scrap_ver_list(node *head)
+{
+	for(auto np = head; head != nullptr; np = head)
+	{
+		head = head->v_next;
+		delete np;
+	}
+}
+
+template <typename T>
+void forked_linked_list<T>::scrap_hor_list(node *head)
+{
+	for(auto np = head; head != nullptr; np = head)
+	{
+		head = head->h_next;
+		delete np;
+	}
 }
 
 } /* namespace dlib */

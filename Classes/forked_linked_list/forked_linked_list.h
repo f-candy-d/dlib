@@ -71,6 +71,10 @@ private:
 	node* build_ver_list(size_t height, const T& def_val = T());
 	node* build_hor_list(size_t width, const T& def_val = T());
 	void set_size(size_t width, size_t height);
+	node* join_ver_list(node* left, node* right);
+	node* join_hor_list(node* below, node* above);
+	void scrap_ver_list(node* head);
+	void scrap_hor_list(node* head);
 };
 
 } /* namespace dlib */

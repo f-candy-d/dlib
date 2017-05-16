@@ -11,6 +11,10 @@
 
 namespace dlib
 {
+	// forward declaration
+	// set this class as friend of iterator class
+	template <typename T> class forked_linked_list;
+
 namespace forked_linked_list_bits
 {
 
@@ -24,6 +28,9 @@ enum class iterator_direction
 template <typename T> struct iterator : public std::iterator<
 	std::forward_iterator_tag, T, std::ptrdiff_t, T*, T&>
 {
+	// enable to use nodep()
+	friend forked_linked_list<T>;
+
 	iterator() :np(nullptr),i_dir(iterator_direction::kVertical) {}
 	iterator(node<T>* p, iterator_direction dir) :np(p),i_dir(dir) {}
 	T& operator*() const { return np->value; }
@@ -38,16 +45,10 @@ template <typename T> struct iterator : public std::iterator<
 		switch(i_dir)
 		{
 			case iterator_direction::kVertical :
-			{
-				np = (np != nullptr) ? np->v_next : nullptr;
-				break;
-			}
+				return forward_var();
 
 			case iterator_direction::kHorizontal :
-			{
-				np = (np != nullptr) ? np->h_next : nullptr;
-				break;
-			}
+				return forward_hor();
 		}
 
 		return *this;
@@ -63,6 +64,9 @@ template <typename T> struct iterator : public std::iterator<
 private:
 	node<T>* np;
 	iterator_direction i_dir;
+
+	node<T>* nodep() { return np; }
+	const node<T>* nodep() const { return np; }
 };
 
 // const iterator
