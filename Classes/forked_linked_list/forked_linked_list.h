@@ -43,9 +43,9 @@ public:
 	size_t size() const { return width_ * height_; }
 	size_t width() const { return width_; }
 	size_t height() const { return height_; }
-	iterator begin() { return iterator(origin_, itr_dir::kVertical); }
-	const_iterator begin() const { return const_iterator(origin_, itr_dir::kVertical); }
-	const_iterator cbegin() const { return const_iterator(origin_, itr_dir::kVertical); }
+	iterator begin() { return iterator(head_, itr_dir::kVertical); }
+	const_iterator begin() const { return const_iterator(head_, itr_dir::kVertical); }
+	const_iterator cbegin() const { return const_iterator(head_, itr_dir::kVertical); }
 	iterator end() { return iterator(nullptr, itr_dir::kVertical); }
 	const_iterator end() const { return const_iterator(nullptr, itr_dir::kVertical); }
 	const_iterator cend() const { return const_iterator(nullptr, itr_dir::kVertical); }
@@ -55,15 +55,17 @@ public:
 	iterator vend() { return std::move(end()); }
 	const_iterator vend() const { return std::move(end()); }
 	const_iterator cvend() const { return std::move(cend()); }
-	iterator hbegin() { return iterator(origin_, itr_dir::kHorizontal); }
-	const_iterator hbegin() const { return const_iterator(origin_, itr_dir::kHorizontal); }
-	const_iterator chbegin() const { return const_iterator(origin_, itr_dir::kHorizontal); }
+	iterator hbegin() { return iterator(head_, itr_dir::kHorizontal); }
+	const_iterator hbegin() const { return const_iterator(head_, itr_dir::kHorizontal); }
+	const_iterator chbegin() const { return const_iterator(head_, itr_dir::kHorizontal); }
 	iterator hend() { return iterator(nullptr, itr_dir::kHorizontal); }
 	const_iterator hend() const { return const_iterator(nullptr, itr_dir::kHorizontal); }
 	const_iterator chend() const { return const_iterator(nullptr, itr_dir::kHorizontal); }
 
 private:
-	node* origin_;
+	node* head_;
+	node* tail_var_;
+	node* tail_hor_;
 	size_t width_;
 	size_t height_;
 

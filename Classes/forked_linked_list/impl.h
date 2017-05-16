@@ -10,27 +10,33 @@ namespace dlib
 
 template <typename T>
 forked_linked_list<T>::forked_linked_list()
-:origin_(nullptr)
+:head_(nullptr)
+,tail_var_(nullptr)
+,tail_hor_(nullptr)
 ,width_(0)
 ,height_(0)
 {}
 
 template <typename T>
 forked_linked_list<T>::forked_linked_list(size_t width, size_t height)
-:origin_(nullptr)
+:head_(nullptr)
+,tail_var_(nullptr)
+,tail_hor_(nullptr)
 ,width_(width)
 ,height_(height)
 {
-	origin_ = build(width, height);
+	head_ = build(width, height);
 }
 
 template <typename T>
 forked_linked_list<T>::forked_linked_list(size_t width, size_t height, const T& def_val)
-:origin_(nullptr)
+:head_(nullptr)
+,tail_var_(nullptr)
+,tail_hor_(nullptr)
 ,width_(width)
 ,height_(height)
 {
-	origin_ = build(width, height, def_val);
+	head_ = build(width, height, def_val);
 }
 
 template <typename T>
@@ -48,21 +54,21 @@ void forked_linked_list<T>::push_back_hor_list(const T &def_val)
 template <typename T>
 void forked_linked_list<T>::push_front_ver_list(const T &def_val)
 {
-	if(height_ == 0)
-		return;
-
-	origin_ = join_ver_list(build_ver_list(height_, def_val), origin_);
-	set_size(width_ + 1, height_);
+	head_ = join_ver_list(build_ver_list(height_, def_val), head_);
+	if(head_ != nullptr)
+	{
+		set_size(width_ + 1, height_);
+	}
 }
 
 template <typename T>
 void forked_linked_list<T>::push_front_hor_list(const T &def_val)
 {
-	if(width_ == 0)
-		return;
-
-	origin_ = join_hor_list(build_hor_list(width_, def_val), origin_);
-	set_size(width_, height_ + 1);
+	head_ = join_hor_list(build_hor_list(width_, def_val), head_);
+	if(head_ != nullptr)
+	{
+		set_size(width_, height_ + 1);
+	}
 }
 
 template <typename T>
@@ -94,11 +100,11 @@ void forked_linked_list<T>::pop_back_hor_list()
 template <typename T>
 void forked_linked_list<T>::pop_front_ver_list()
 {
-	if(origin_ != nullptr)
+	if(head_ != nullptr)
 	{
-		auto np = origin_->h_next;
-		scrap_ver_list(origin_);
-		origin_ = np;
+		auto np = head_->h_next;
+		scrap_ver_list(head_);
+		head_ = np;
 
 		set_size(width_ - 1, height_);
 	}
@@ -107,11 +113,11 @@ void forked_linked_list<T>::pop_front_ver_list()
 template <typename T>
 void forked_linked_list<T>::pop_front_hor_list()
 {
-	if(origin_ != nullptr)
+	if(head_ != nullptr)
 	{
-		auto np = origin_->v_next;
-		scrap_hor_list(origin_);
-		origin_ = np;
+		auto np = head_->v_next;
+		scrap_hor_list(head_);
+		head_ = np;
 
 		set_size(width_, height_ - 1);
 	}
@@ -134,7 +140,7 @@ forked_linked_list<T>::erase_hor_list(iterator previous)
 template <typename T>
 void forked_linked_list<T>::clear()
 {
-	while(origin_ != nullptr)
+	while(head_ != nullptr)
 	{
 		pop_front_hor_list();
 	}
@@ -153,9 +159,9 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 	{
 		clear();
 	}
-	else if(origin_ == nullptr)
+	else if(head_ == nullptr)
 	{
-		origin_ = build(width, height, def_val);
+		head_ = build(width, height, def_val);
 	}
 	else
 	{
@@ -225,6 +231,9 @@ template <typename T>
 typename forked_linked_list<T>::node*
 forked_linked_list<T>::build_ver_list(size_t height, const T &def_val)
 {
+	if(height == 0)
+		return nullptr;
+
 	auto head = new node(def_val);
 	auto np = head;
 	for(size_t i = 1; i < height; ++i)
@@ -240,6 +249,9 @@ template <typename T>
 typename forked_linked_list<T>::node*
 forked_linked_list<T>::build_hor_list(size_t width, const T &def_val)
 {
+	if(width == 0)
+		return nullptr;
+
 	auto head = new node(def_val);
 	auto np = head;
 	for(size_t i = 1; i < width; ++i)
