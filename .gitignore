@@ -1,0 +1,5 @@
+# ignore files with no extension in the Classes directory
+Classes/*
+!Classes/*.*
+
+.gitignore~
