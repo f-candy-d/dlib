@@ -248,13 +248,25 @@ forked_linked_list<T>::insert_hor_list(v_iterator previous, const T &def_val)
 template <typename T>
 void forked_linked_list<T>::pop_back_ver_list()
 {
-
+	// if(size() != 0)
+	// {
+	// 	scrap_ver_list(tail_hor_);
+	// 	set_size(width_ - 1, height_);
+	// 	set_tails();
+	// 	join_ver_list(tail_hor_, vh_iterator());
+	// }
 }
 
 template <typename T>
 void forked_linked_list<T>::pop_back_hor_list()
 {
-
+	// if(size() != 0)
+	// {
+	// 	scrap_hor_list(tail_var_);
+	// 	set_size(width_, height_ - 1);
+	// 	set_tails();
+	// 	join_hor_list(tail_var_, vh_iterator());
+	// }
 }
 
 template <typename T>
@@ -268,6 +280,14 @@ void forked_linked_list<T>::pop_front_ver_list()
 	//
 	// 	set_size(width_ - 1, height_);
 	// }
+
+	if(size() != 0)
+	{
+		auto itr = head_;
+		head_.forward_hor();
+		scrap_ver_list(itr);
+		set_size(width_ - 1, height_);
+	}
 }
 
 template <typename T>
@@ -281,6 +301,14 @@ void forked_linked_list<T>::pop_front_hor_list()
 	//
 	// 	set_size(width_, height_ - 1);
 	// }
+
+	if(size() != 0)
+	{
+		auto itr = head_;
+		head_.forward_var();
+		scrap_hor_list(itr);
+		set_size(width_, height_ - 1);
+	}
 }
 
 template <typename T>
@@ -479,7 +507,10 @@ template <typename T>
 typename forked_linked_list<T>::vh_iterator
 forked_linked_list<T>::join_ver_list(vh_iterator left, vh_iterator right)
 {
-	assert(left != vhend());
+	if(left.nodep() == nullptr)
+	{
+		return std::move(left);
+	}
 
 	auto l_itr = left;
 	{
@@ -494,7 +525,10 @@ template <typename T>
 typename forked_linked_list<T>::vh_iterator
 forked_linked_list<T>::join_hor_list(vh_iterator below, vh_iterator above)
 {
-	assert(below != vhend());
+	if(below.nodep() == nullptr)
+	{
+		return std::move(below);
+	}
 
 	auto b_itr = below;
 	for(; below != vhend(); below.forward_hor(), above.forward_hor())
