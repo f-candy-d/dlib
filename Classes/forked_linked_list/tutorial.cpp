@@ -21,18 +21,18 @@ int main(int argc, char const *argv[])
 	// std::cout << '\n';
 
 	int c = 10;
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			*h_itr = c;
 			++c;
 		}
 	}
 
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
@@ -44,9 +44,9 @@ int main(int argc, char const *argv[])
 
 	std::cout << "push front ver/hor list" << '\n';
 
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
@@ -60,9 +60,9 @@ int main(int argc, char const *argv[])
 
 	std::cout << "pop front ver/hor list" << '\n';
 
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
@@ -74,9 +74,9 @@ int main(int argc, char const *argv[])
 	std::cout << "clear!" << '\n';
 	list.clear();
 
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
@@ -90,9 +90,9 @@ int main(int argc, char const *argv[])
 	list.push_front_hor_list(22);
 	list.push_front_hor_list(33);
 
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
@@ -104,9 +104,9 @@ int main(int argc, char const *argv[])
 	std::cout << "pop front ver list" << '\n';
 	list.pop_front_ver_list();
 
-	for(auto v_itr = list.begin(); v_itr != list.end(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
@@ -119,9 +119,9 @@ int main(int argc, char const *argv[])
 	list2.resize(5, 5, 11);
 
 	std::cout << "list22" << '\n';
-	for(auto v_itr = list2.begin(); v_itr != list2.end(); v_itr.forward_var())
+	for(auto v_itr = list2.vhbegin(); v_itr != list2.vhend(); v_itr.forward_var())
 	{
-		for(auto h_itr = v_itr; h_itr != list2.end(); h_itr.forward_hor())
+		for(auto h_itr = v_itr; h_itr != list2.vhend(); h_itr.forward_hor())
 		{
 			std::cout << *h_itr << ", ";
 		}
