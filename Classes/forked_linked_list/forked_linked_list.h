@@ -91,7 +91,9 @@ private:
 	void scrap_ver_list(vh_iterator head);
 	void scrap_hor_list(vh_iterator head);
 	void on_size_zero();
-	void set_tails();
+	void reset_tails();
+	void reset_tail_ver();
+	void reset_tail_hor();
 };
 
 } /* namespace dlib */

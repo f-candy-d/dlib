@@ -14,7 +14,7 @@ void print_list(dlib::forked_linked_list<T>& list)
 		std::cout << '\n';
 	}
 
-	std::cout << "# size = " << list.size() << " | capacity = " << list.capaicty() << '\n';
+	std::cout << "# size = " << list.size() << " (" << list.width() << "x" << list.height() << ") | capacity = " << list.capaicty() << " (" << list.capacity_width() << "x" << list.capacity_height() << ")" << '\n';
 
 	std::cout << '\n';
 }
@@ -62,12 +62,12 @@ int main(int argc, char const *argv[])
 	print_list(list);
 
 	// // pop back
-	// std::cout << "# pop_back_ver_list()" << '\n';
-	// std::cout << "# pop_back_hor_list() x2" << '\n';
-	// list.pop_back_ver_list();
-	// list.pop_back_hor_list();
-	// list.pop_back_hor_list();
-	// print_list(list);
+	std::cout << "# pop_back_ver_list()" << '\n';
+	std::cout << "# pop_back_hor_list() x2" << '\n';
+	list.pop_back_ver_list();
+	list.pop_back_hor_list();
+	list.pop_back_hor_list();
+	print_list(list);
 
 	// pop front
 	std::cout << "# pop_front_ver_list() x2" << '\n';
@@ -75,6 +75,39 @@ int main(int argc, char const *argv[])
 	list.pop_front_ver_list();
 	list.pop_front_ver_list();
 	list.pop_front_hor_list();
+	print_list(list);
+
+	// erase
+	std::cout << "# erase_ver_list(++list.hbegin())" << '\n';
+	std::cout << "# erase_hor_list(++list.vbegin())" << '\n';
+	list.erase_ver_list(++list.hbegin());
+	list.erase_hor_list(++list.vbegin());
+	print_list(list);
+
+	// clear
+	std::cout << "# clear()" << '\n';
+	list.clear();
+	print_list(list);
+
+	// push back
+	std::cout << "# push_back_ver_list(22)" << '\n';
+	std::cout << "# push_back_hor_list(33)" << '\n';
+	list.push_back_ver_list(22);
+	list.push_back_hor_list(33);
+	print_list(list);
+
+	// push front
+	std::cout << "# push_front_ver_list(44)" << '\n';
+	std::cout << "# push_front_hor_list(55)" << '\n';
+	list.push_front_ver_list(44);
+	list.push_front_hor_list(55);
+	print_list(list);
+
+	// insert
+	std::cout << "# insert_ver_list(++(list.hbegin()), 66)" << '\n';
+	std::cout << "# insert_hor_list(++(list.vbegin()), 77)" << '\n';
+	list.insert_ver_list(++(list.hbegin()), 66);
+	list.insert_hor_list(++(list.vbegin()), 77);
 	print_list(list);
 
 	/**
@@ -103,11 +136,11 @@ int main(int argc, char const *argv[])
 	list2.insert_hor_list(++(list2.vbegin()), 77);
 
 	// // pop back
-	// std::cout << "# pop_back_ver_list()" << '\n';
-	// std::cout << "# pop_back_hor_list() x2" << '\n';
-	// list2.pop_back_ver_list();
-	// list2.pop_back_hor_list();
-	// list2.pop_back_hor_list();
+	std::cout << "# pop_back_ver_list()" << '\n';
+	std::cout << "# pop_back_hor_list() x2" << '\n';
+	list2.pop_back_ver_list();
+	list2.pop_back_hor_list();
+	list2.pop_back_hor_list();
 
 	// pop front
 	std::cout << "# pop_front_ver_list() x2" << '\n';
@@ -115,6 +148,15 @@ int main(int argc, char const *argv[])
 	list2.pop_front_ver_list();
 	list2.pop_front_ver_list();
 	list2.pop_front_hor_list();
+
+	// erase
+	std::cout << "# erase_ver_list(++list.hbegin())" << '\n';
+	std::cout << "# erase_hor_list(++list.vbegin())" << '\n';
+	list2.erase_ver_list(++list2.hbegin());
+	list2.erase_hor_list(++list2.vbegin());
+
+	// clear
+	list2.clear();
 
 	print_list(list2);
 

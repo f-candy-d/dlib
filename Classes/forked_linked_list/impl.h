@@ -29,7 +29,7 @@ forked_linked_list<T>::forked_linked_list(size_t width, size_t height)
 	if(size() != 0)
 	{
 		head_ = build(width, height);
-		set_tails();
+		reset_tails();
 	}
 }
 
@@ -41,22 +41,13 @@ forked_linked_list<T>::forked_linked_list(size_t width, size_t height, const T& 
 	if(size() != 0)
 	{
 		head_ = build(width, height, def_val);
-		set_tails();
+		reset_tails();
 	}
 }
 
 template <typename T>
 void forked_linked_list<T>::push_back_ver_list(const T &def_val)
 {
-	// auto new_tail_hor = build_ver_list(height_, def_val);
-	// join_ver_list(tail_hor_, new_tail_hor);
-	// tail_hor_ = new_tail_hor;
-	//
-	// if(tail_hor_.nodep() != nullptr)
-	// {
-	// 	set_size(width_ + 1, height_);
-	// }
-
 	// if (size = capacity = 0), do nothing
 	if(size() != 0)
 	{
@@ -69,22 +60,13 @@ void forked_linked_list<T>::push_back_ver_list(const T &def_val)
 	{
 		head_ = build_ver_list(capacity_height_, def_val);
 		set_size(1, capacity_height_);
-		set_tails();
+		reset_tails();
 	}
 }
 
 template <typename T>
 void forked_linked_list<T>::push_back_hor_list(const T &def_val)
 {
-	// auto new_tail_ver = build_ver_list(width_, def_val);
-	// join_ver_list(tail_var_, new_tail_ver);
-	// tail_var_ = new_tail_ver;
-	//
-	// if(tail_var_.nodep() != nullptr)
-	// {
-	// 	set_size(width_, height_ + 1);
-	// }
-
 	// if (size = capacity = 0), do nothing
 	if(size() != 0)
 	{
@@ -97,53 +79,43 @@ void forked_linked_list<T>::push_back_hor_list(const T &def_val)
 	{
 		head_ = build_hor_list(capacity_width_, def_val);
 		set_size(capacity_width_, 1);
-		set_tails();
+		reset_tails();
 	}
 }
 
 template <typename T>
 void forked_linked_list<T>::push_front_ver_list(const T &def_val)
 {
-	// head_ = join_ver_list(build_ver_list(height_, def_val), head_);
-	// if(head_.nodep() != nullptr)
-	// {
-	// 	set_size(width_ + 1, height_);
-	// }
-
 	// if (size = capacity = 0), do nothing
 	if(size() != 0)
 	{
 		head_ = join_ver_list(build_ver_list(height_, def_val), head_);
 		set_size(width_ + 1, height_);
+		reset_tail_ver();
 	}
 	else if(capaicty() != 0)
 	{
 		head_ = build_ver_list(capacity_height_, def_val);
 		set_size(1, capacity_height_);
-		set_tails();
+		reset_tails();
 	}
 }
 
 template <typename T>
 void forked_linked_list<T>::push_front_hor_list(const T &def_val)
 {
-	// head_ = join_hor_list(build_hor_list(width_, def_val), head_);
-	// if(head_.nodep() != nullptr)
-	// {
-	// 	set_size(width_, height_ + 1);
-	// }
-
 	// if (size = capacity = 0), do nothing
 	if(size() != 0)
 	{
 		head_ = join_hor_list(build_hor_list(width_, def_val), head_);
 		set_size(width_, height_ + 1);
+		reset_tail_hor();
 	}
 	else if(capaicty() != 0)
 	{
 		head_ = build_hor_list(capacity_width_, def_val);
 		set_size(capacity_width_, 1);
-		set_tails();
+		reset_tails();
 	}
 }
 
@@ -151,27 +123,6 @@ template <typename T>
 typename forked_linked_list<T>::h_iterator
 forked_linked_list<T>::insert_ver_list(h_iterator previous, const T &def_val)
 {
-	// if(previous.nodep() == nullptr)
-	// 	return previous;
-	//
-	// if(previous == tail_hor_)
-	// {
-	// 	// push back
-	// 	push_back_ver_list(def_val);
-	// 	return std::move(h_iterator(tail_hor_.nodep()));
-	// }
-	// else
-	// {
-	// 	auto new_ver_list = build_ver_list(height_, def_val);
-	// 	auto next_list = previous;
-	// 	++next_list;
-	// 	join_ver_list(new_ver_list, next_list);
-	// 	join_ver_list(previous, new_ver_list);
-	// 	set_size(width_ + 1, height_);
-	//
-	// 	return std::move(h_iterator(new_ver_list.nodep()));
-	// }
-
 	if(previous.nodep() == nullptr)
 	{
 		return std::move(previous);
@@ -200,27 +151,6 @@ template <typename T>
 typename forked_linked_list<T>::v_iterator
 forked_linked_list<T>::insert_hor_list(v_iterator previous, const T &def_val)
 {
-	// if(previous.nodep() == nullptr)
-	// 	return previous;
-	//
-	// if(previous == tail_var_)
-	// {
-	// 	// push back
-	// 	push_back_hor_list(def_val);
-	// 	return std::move(v_iterator(tail_var_.nodep()));
-	// }
-	// else
-	// {
-	// 	auto new_hor_list = build_hor_list(width_, def_val);
-	// 	auto next_list = previous;
-	// 	++next_list;
-	// 	join_hor_list(new_hor_list, next_list);
-	// 	join_hor_list(previous, new_hor_list);
-	// 	set_size(width_, height_ + 1);
-	//
-	// 	return std::move(v_iterator(new_hor_list.nodep()));
-	// }
-
 	if(previous.nodep() == nullptr)
 	{
 		return std::move(previous);
@@ -248,66 +178,52 @@ forked_linked_list<T>::insert_hor_list(v_iterator previous, const T &def_val)
 template <typename T>
 void forked_linked_list<T>::pop_back_ver_list()
 {
-	// if(size() != 0)
-	// {
-	// 	scrap_ver_list(tail_hor_);
-	// 	set_size(width_ - 1, height_);
-	// 	set_tails();
-	// 	join_ver_list(tail_hor_, vh_iterator());
-	// }
+	if(size() != 0)
+	{
+		auto before_tail_hor = head_;
+		for(; before_tail_hor.nodep()->h_next != tail_hor_.nodep(); before_tail_hor.forward_hor());
+		scrap_ver_list(tail_hor_);
+		tail_hor_ = join_ver_list(before_tail_hor, vh_iterator());
+		set_size(width_ - 1, height_);
+	}
 }
 
 template <typename T>
 void forked_linked_list<T>::pop_back_hor_list()
 {
-	// if(size() != 0)
-	// {
-	// 	scrap_hor_list(tail_var_);
-	// 	set_size(width_, height_ - 1);
-	// 	set_tails();
-	// 	join_hor_list(tail_var_, vh_iterator());
-	// }
+	if(size() != 0)
+	{
+		auto before_tail_ver = head_;
+		for(; before_tail_ver.nodep()->v_next != tail_var_.nodep(); before_tail_ver.forward_var());
+		scrap_hor_list(tail_var_);
+		tail_var_ = join_hor_list(before_tail_ver, vh_iterator());
+		set_size(width_, height_ - 1);
+	}
 }
 
 template <typename T>
 void forked_linked_list<T>::pop_front_ver_list()
 {
-	// if(head_.nodep() != nullptr)
-	// {
-	// 	auto itr = head_;
-	// 	head_.forward_hor();
-	// 	scrap_ver_list(itr);
-	//
-	// 	set_size(width_ - 1, height_);
-	// }
-
 	if(size() != 0)
 	{
 		auto itr = head_;
 		head_.forward_hor();
 		scrap_ver_list(itr);
 		set_size(width_ - 1, height_);
+		reset_tail_ver();
 	}
 }
 
 template <typename T>
 void forked_linked_list<T>::pop_front_hor_list()
 {
-	// if(head_.nodep() != nullptr)
-	// {
-	// 	auto itr = head_;
-	// 	head_.forward_var();
-	// 	scrap_hor_list(itr);
-	//
-	// 	set_size(width_, height_ - 1);
-	// }
-
 	if(size() != 0)
 	{
 		auto itr = head_;
 		head_.forward_var();
 		scrap_hor_list(itr);
 		set_size(width_, height_ - 1);
+		reset_tail_hor();
 	}
 }
 
@@ -315,53 +231,61 @@ template <typename T>
 typename forked_linked_list<T>::h_iterator
 forked_linked_list<T>::erase_ver_list(h_iterator previous)
 {
-	// if(previous == tail_hor_)
-	// 	return previous;
-	//
-	// auto next = previous;
-	// auto after_next = previous;
-	// ++next;
-	// ++after_next;
-	// ++after_next;
-	//
-	// join_ver_list(previous, after_next);
-	// scrap_ver_list(next);
-	//
-	// set_size(width_ - 1, height_);
-	//
-	// return after_next;
+	if(previous.nodep() == nullptr || previous == tail_hor_ || size() == 0)
+	{
+		return std::move(hend());
+	}
+	else
+	{
+		auto next = previous;
+		auto after_next = previous;
+		++next;
+		++after_next;
+		++after_next;
+
+		join_ver_list(previous, after_next);
+		scrap_ver_list(next);
+
+		set_size(width_ - 1, height_);
+		reset_tail_hor();
+
+		return std::move(after_next);
+	}
 }
 
 template <typename T>
 typename forked_linked_list<T>::v_iterator
 forked_linked_list<T>::erase_hor_list(v_iterator previous)
 {
-	// if(previous == tail_var_)
-	// 	return previous;
-	//
-	// auto next = previous;
-	// auto after_next = previous;
-	// ++next;
-	// ++after_next;
-	// ++after_next;
-	//
-	// join_hor_list(previous, after_next);
-	// scrap_hor_list(next);
-	//
-	// set_size(width_, height_ - 1);
-	//
-	// return after_next;
+	if(previous.nodep() == nullptr || previous == tail_var_ || size() == 0)
+	{
+		return std::move(vend());
+	}
+	else
+	{
+		auto next = previous;
+		auto after_next = previous;
+		++next;
+		++after_next;
+		++after_next;
+
+		join_hor_list(previous, after_next);
+		scrap_hor_list(next);
+
+		set_size(width_, height_ - 1);
+		reset_tail_ver();
+
+		return std::move(after_next);
+	}
 }
 
 template <typename T>
 void forked_linked_list<T>::clear()
 {
-// 	while(head_.nodep() != nullptr)
-// 	{
-// 		pop_front_hor_list();
-// 	}
-//
-	// set_size(0, 0);
+		while(size() != 0)
+		{
+			pop_front_hor_list();
+		}
 }
 
 template <typename T>
@@ -566,20 +490,39 @@ void forked_linked_list<T>::on_size_zero()
 }
 
 template <typename T>
-void forked_linked_list<T>::set_tails()
+void forked_linked_list<T>::reset_tails()
+{
+	reset_tail_ver();
+	reset_tail_hor();
+}
+
+template <typename T>
+void forked_linked_list<T>::reset_tail_ver()
 {
 	if(head_ == vhend())
 	{
-		tail_var_ = tail_hor_ = vhend();
+		tail_var_ = vhend();
+	}
+	else
+	{
+		// find vertical tail
+		tail_var_ = head_;
+		for(; tail_var_.nodep()->v_next != nullptr; tail_var_.forward_var());
+	}
+}
+
+template <typename T>
+void forked_linked_list<T>::reset_tail_hor()
+{
+	if(head_ == vhend())
+	{
+		tail_hor_ = vhend();
 	}
 	else
 	{
 		// find horizontal tail
 		tail_hor_ = head_;
 		for(; tail_hor_.nodep()->h_next != nullptr; tail_hor_.forward_hor());
-		// find vertical tail
-		tail_var_ = head_;
-		for(; tail_var_.nodep()->v_next != nullptr; tail_var_.forward_var());
 	}
 }
 
