@@ -68,7 +68,8 @@ private:
 template <typename T> struct const_vh_iterator : public vh_iterator<T>
 {
 	const_vh_iterator() :vh_iterator<T>() {}
-	const_vh_iterator(node<T>* p, running_direction dir) :vh_iterator<T>(p, dir) {}
+	const_vh_iterator(const node<T>* p) :vh_iterator<T>(p) {}
+	const_vh_iterator(const node<T>* p, running_direction dir) :vh_iterator<T>(p, dir) {}
 	const T& operator*() const { return vh_iterator<T>::operator*(); }
 	const T* operator->() const { return vh_iterator<T>::operator->(); }
 
@@ -118,7 +119,7 @@ private:
 template <typename T> struct const_v_iterator : public v_iterator<T>
 {
 	const_v_iterator() :v_iterator<T>() {}
-	const_v_iterator(node<T>* p) :v_iterator<T>(p) {}
+	const_v_iterator(const node<T>* p) :v_iterator<T>(p) {}
 	const T& operator*() const { return v_iterator<T>::operator*(); }
 	const T* operator->() const { return v_iterator<T>::operator->(); }
 
@@ -166,7 +167,7 @@ private:
 template <typename T> struct const_h_iterator : public h_iterator<T>
 {
 	const_h_iterator() :v_iterator<T>() {}
-	const_h_iterator(node<T>* p) :v_iterator<T>(p) {}
+	const_h_iterator(const node<T>* p) :v_iterator<T>(p) {}
 	const T& operator*() const { return v_iterator<T>::operator*(); }
 	const T* operator->() const { return v_iterator<T>::operator->(); }
 
