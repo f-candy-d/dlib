@@ -1,5 +1,6 @@
 #include <iostream>
 #include "forked_linked_list.h"
+#include "node_cursor.h"
 
 template <typename T>
 void print_list(dlib::forked_linked_list<T>& list)
@@ -92,8 +93,12 @@ int main(int argc, char const *argv[])
 	// push back
 	std::cout << "# push_back_ver_list(22)" << '\n';
 	std::cout << "# push_back_hor_list(33)" << '\n';
+	std::cout << "# push_back_ver_list(88)" << '\n';
+	std::cout << "# push_back_hor_list(99)" << '\n';
 	list.push_back_ver_list(22);
 	list.push_back_hor_list(33);
+	list.push_back_ver_list(88);
+	list.push_back_hor_list(99);
 	print_list(list);
 
 	// push front

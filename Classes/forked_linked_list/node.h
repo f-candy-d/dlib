@@ -17,6 +17,7 @@ template <typename T> struct node
 	struct node* v_next;
 	struct node* h_next;
 
+	node() :value(),v_next(nullptr),h_next(nullptr) {}
 	node(const T& val, struct node* vnxt = nullptr, struct node* hnxt = nullptr)
 	:value(val),v_next(vnxt),h_next(hnxt) {}
 };

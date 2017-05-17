@@ -8,6 +8,7 @@
 
 #include "iterators.h"
 #include "node.h"
+#include "node_cursor.h"
 
 namespace dlib
 {
