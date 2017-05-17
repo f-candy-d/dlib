@@ -305,6 +305,7 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 	{
 		head_ = build(width, height, def_val);
 		set_size(width, height);
+		reset_tails();
 	}
 	else
 	{

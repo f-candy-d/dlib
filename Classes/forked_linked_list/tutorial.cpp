@@ -110,6 +110,15 @@ int main(int argc, char const *argv[])
 	list.insert_hor_list(++(list.vbegin()), 77);
 	print_list(list);
 
+	std::cout << "# resize(10, 15, 99)" << '\n';
+	list.resize(10, 15, 99);
+	print_list(list);
+
+	// clear
+	std::cout << "# clear()" << '\n';
+	list.clear();
+	print_list(list);
+
 	/**
 	 * list2
 	 */
@@ -158,6 +167,15 @@ int main(int argc, char const *argv[])
 	// clear
 	list2.clear();
 
+	print_list(list2);
+
+	std::cout << "# resize(10, 15, 99)" << '\n';
+	list2.resize(10, 15, 99);
+	print_list(list2);
+
+	// clear
+	std::cout << "# clear()" << '\n';
+	list2.clear();
 	print_list(list2);
 
 	return 0;
