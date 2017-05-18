@@ -1,6 +1,7 @@
 /**********************************************************************************
  *
- * node_cursor class declaration. this class is only used in forked_linked_list class.
+ * node_cursor class. May/19/2017
+ * this class is only used in forked_linked_list class.
  *
  **********************************************************************************/
 #ifndef DLIB_CLASSES_FORKED_LINKED_LIST_NODE_CURSOR_H

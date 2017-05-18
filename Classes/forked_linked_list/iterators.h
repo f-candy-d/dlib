@@ -1,6 +1,6 @@
 /**********************************************************************************
  *
- * Iterators of forked_linked_list class
+ * Iterators of forked_linked_list class. May/19/2017
  *
  **********************************************************************************/
 #ifndef DLIB_CLASSES_FORKED_LINKED_LIST_ITERATORS_H

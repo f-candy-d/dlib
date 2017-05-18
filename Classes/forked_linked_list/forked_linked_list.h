@@ -1,6 +1,6 @@
 /**********************************************************************************
  *
- * forked_linked_list class
+ * forked_linked_list class. May/19/2017
  *
  **********************************************************************************/
 #ifndef DLIB_CLASSES_FORKED_LINKED_LIST_FORKED_LINKED_LIST_H
