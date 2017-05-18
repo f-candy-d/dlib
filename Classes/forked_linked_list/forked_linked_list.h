@@ -54,29 +54,29 @@ public:
 	size_t capacity_height() const { return capacity_height_; }
 	void fit_capacity() { capacity_width_ = width_; capacity_height_ = height_; }
 	// vh-iterator
-	vh_iterator vhbegin() { return head_; }
-	const_vh_iterator vhbegin() const { return const_vh_iterator(head_.nodep(), run_dir::kVertical); }
-	const_vh_iterator cvhbegin() const { return const_vh_iterator(head_.nodep(), run_dir::kVertical); }
+	vh_iterator vhbegin() { return std::move(head_.to_vh_iterator()); }
+	const_vh_iterator vhbegin() const { return const_vh_iterator(*head_, run_dir::kVertical); }
+	const_vh_iterator cvhbegin() const { return const_vh_iterator(*head_, run_dir::kVertical); }
 	vh_iterator vhend() { return vh_iterator(nullptr, run_dir::kVertical); }
 	const_vh_iterator vhend() const { return const_vh_iterator(nullptr, run_dir::kVertical); }
 	const_vh_iterator cvhend() const { return const_vh_iterator(nullptr, run_dir::kVertical); }
 	// v-iterator
-	v_iterator vbegin() { return v_iterator(head_.nodep()); }
-	const_v_iterator vbegin() const { return const_v_iterator(head_.nodep()); }
-	const_v_iterator cvbegin() const { return const_v_iterator(head_.nodep()); }
+	v_iterator vbegin() { return v_iterator(*head_); }
+	const_v_iterator vbegin() const { return const_v_iterator(*head_); }
+	const_v_iterator cvbegin() const { return const_v_iterator(*head_); }
 	v_iterator vend() { return v_iterator(nullptr); }
 	const_v_iterator vend() const { return const_v_iterator(nullptr); }
 	const_v_iterator cvend() const { return const_v_iterator(nullptr); }
 	// h-iterator
-	h_iterator hbegin() { return h_iterator(head_.nodep()); }
-	const_h_iterator hbegin() const { return const_h_iterator(head_.nodep()); }
-	const_h_iterator chbegin() const { return const_h_iterator(head_.nodep()); }
+	h_iterator hbegin() { return h_iterator(*head_); }
+	const_h_iterator hbegin() const { return const_h_iterator(*head_); }
+	const_h_iterator chbegin() const { return const_h_iterator(*head_); }
 	h_iterator hend() { return h_iterator(nullptr); }
 	const_h_iterator hend() const { return const_h_iterator(nullptr); }
 	const_h_iterator chend() const { return const_h_iterator(nullptr); }
 
 private:
-	vh_iterator head_;
+	node_cursor head_;
 	vh_iterator tail_var_;
 	vh_iterator tail_hor_;
 	size_t width_;
