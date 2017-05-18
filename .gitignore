@@ -1,5 +1,6 @@
 # ignore files with no extension in all the directories that contained by the Classes directory
 Classes/*/*
 !Classes/*/*.*
+Classes/*/*.gch
 
 .gitignore~
