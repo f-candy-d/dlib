@@ -28,7 +28,8 @@ forked_linked_list<T>::forked_linked_list(size_t width, size_t height)
 	set_size(width, height);
 	if(size() != 0)
 	{
-		head_ = build(width, height);
+		// head_ = build(width, height);
+		head_ = build(width, height).to_vh_iterator();
 		reset_tails();
 	}
 }
@@ -40,7 +41,8 @@ forked_linked_list<T>::forked_linked_list(size_t width, size_t height, const T& 
 	set_size(width, height);
 	if(size() != 0)
 	{
-		head_ = build(width, height, def_val);
+		// head_ = build(width, height, def_val);
+		head_ = build(width, height, def_val).to_vh_iterator();
 		reset_tails();
 	}
 }
@@ -52,13 +54,16 @@ void forked_linked_list<T>::push_back_ver_list(const T &def_val)
 	if(size() != 0)
 	{
 		auto new_line = build_ver_list(height_, def_val);
-		join_ver_list(tail_hor_, new_line);
-		tail_hor_ = new_line;
+		// join_ver_list(tail_hor_, new_line);
+		join_ver_list(node_cursor(tail_hor_.nodep()), new_line);
+		// tail_hor_ = new_line;
+		tail_hor_ = new_line.to_vh_iterator();
 		set_size(width_ + 1, height_);
 	}
 	else if(capaicty() != 0)
 	{
-		head_ = build_ver_list(capacity_height_, def_val);
+		// head_ = build_ver_list(capacity_height_, def_val);
+		head_ = build_ver_list(capacity_height_, def_val).to_vh_iterator();
 		set_size(1, capacity_height_);
 		reset_tails();
 	}
@@ -71,13 +76,16 @@ void forked_linked_list<T>::push_back_hor_list(const T &def_val)
 	if(size() != 0)
 	{
 		auto new_line = build_hor_list(width_, def_val);
-		join_hor_list(tail_var_, new_line);
-		tail_var_ = new_line;
+		// join_hor_list(tail_var_, new_line);
+		join_hor_list(node_cursor(tail_var_.nodep()), new_line);
+		// tail_var_ = new_line;
+		tail_var_ = new_line.to_vh_iterator();
 		set_size(width_, height_ + 1);
 	}
 	else if(capaicty() != 0)
 	{
-		head_ = build_hor_list(capacity_width_, def_val);
+		// head_ = build_hor_list(capacity_width_, def_val);
+		head_ = build_hor_list(capacity_width_, def_val).to_vh_iterator();
 		set_size(capacity_width_, 1);
 		reset_tails();
 	}
@@ -89,13 +97,15 @@ void forked_linked_list<T>::push_front_ver_list(const T &def_val)
 	// if (size = capacity = 0), do nothing
 	if(size() != 0)
 	{
-		head_ = join_ver_list(build_ver_list(height_, def_val), head_);
+		// head_ = join_ver_list(build_ver_list(height_, def_val), head_);
+		head_ = join_ver_list(build_ver_list(height_, def_val), node_cursor(head_.nodep())).to_vh_iterator();
 		set_size(width_ + 1, height_);
 		reset_tail_ver();
 	}
 	else if(capaicty() != 0)
 	{
-		head_ = build_ver_list(capacity_height_, def_val);
+		// head_ = build_ver_list(capacity_height_, def_val);
+		head_ = build_ver_list(capacity_height_, def_val).to_vh_iterator();
 		set_size(1, capacity_height_);
 		reset_tails();
 	}
@@ -107,13 +117,15 @@ void forked_linked_list<T>::push_front_hor_list(const T &def_val)
 	// if (size = capacity = 0), do nothing
 	if(size() != 0)
 	{
-		head_ = join_hor_list(build_hor_list(width_, def_val), head_);
+		// head_ = join_hor_list(build_hor_list(width_, def_val), head_);
+		head_ = join_hor_list(build_hor_list(width_, def_val), node_cursor(head_.nodep())).to_vh_iterator();
 		set_size(width_, height_ + 1);
 		reset_tail_hor();
 	}
 	else if(capaicty() != 0)
 	{
-		head_ = build_hor_list(capacity_width_, def_val);
+		// head_ = build_hor_list(capacity_width_, def_val);
+		head_ = build_hor_list(capacity_width_, def_val).to_vh_iterator();
 		set_size(capacity_width_, 1);
 		reset_tails();
 	}
@@ -136,11 +148,14 @@ forked_linked_list<T>::insert_ver_list(h_iterator previous, const T &def_val)
 	}
 	else
 	{
-		auto new_ver_list = build_ver_list(height_, def_val);
+		// auto new_ver_list = build_ver_list(height_, def_val);
+		auto new_ver_list = build_ver_list(height_, def_val).to_v_iterator();
 		auto next_list = previous;
 		++next_list;
-		join_ver_list(new_ver_list, next_list);
-		join_ver_list(previous, new_ver_list);
+		// join_ver_list(new_ver_list, next_list);
+		join_ver_list(node_cursor(new_ver_list.nodep()), node_cursor(next_list.nodep()));
+		// join_ver_list(previous, new_ver_list);
+		join_ver_list(node_cursor(previous.nodep()), node_cursor(new_ver_list.nodep()));
 		set_size(width_ + 1, height_);
 
 		return std::move(h_iterator(new_ver_list.nodep()));
@@ -164,11 +179,14 @@ forked_linked_list<T>::insert_hor_list(v_iterator previous, const T &def_val)
 	}
 	else
 	{
-		auto new_hor_list = build_hor_list(width_, def_val);
+		// auto new_hor_list = build_hor_list(width_, def_val);
+		auto new_hor_list = build_hor_list(width_, def_val).to_h_iterator();
 		auto next_list = previous;
 		++next_list;
-		join_hor_list(new_hor_list, next_list);
-		join_hor_list(previous, new_hor_list);
+		// join_hor_list(new_hor_list, next_list);
+		join_hor_list(node_cursor(new_hor_list.nodep()), node_cursor(next_list.nodep()));
+		// join_hor_list(previous, new_hor_list);
+		join_hor_list(node_cursor(previous.nodep()), node_cursor(new_hor_list.nodep()));
 		set_size(width_, height_ + 1);
 
 		return std::move(v_iterator(new_hor_list.nodep()));
@@ -182,8 +200,10 @@ void forked_linked_list<T>::pop_back_ver_list()
 	{
 		auto before_tail_hor = head_;
 		for(; before_tail_hor.nodep()->h_next != tail_hor_.nodep(); before_tail_hor.forward_hor());
-		scrap_ver_list(tail_hor_);
-		tail_hor_ = join_ver_list(before_tail_hor, vh_iterator());
+		// scrap_ver_list(tail_hor_);
+		scrap_ver_list(node_cursor(tail_hor_.nodep()));
+		// tail_hor_ = join_ver_list(before_tail_hor, vh_iterator());
+		tail_hor_ = join_ver_list(node_cursor(before_tail_hor.nodep()), node_cursor(vh_iterator().nodep())).to_vh_iterator();
 		set_size(width_ - 1, height_);
 	}
 }
@@ -195,8 +215,10 @@ void forked_linked_list<T>::pop_back_hor_list()
 	{
 		auto before_tail_ver = head_;
 		for(; before_tail_ver.nodep()->v_next != tail_var_.nodep(); before_tail_ver.forward_var());
-		scrap_hor_list(tail_var_);
-		tail_var_ = join_hor_list(before_tail_ver, vh_iterator());
+		// scrap_hor_list(tail_var_);
+		scrap_hor_list(node_cursor(tail_var_.nodep()));
+		// tail_var_ = join_hor_list(before_tail_ver, vh_iterator());
+		tail_var_ = join_hor_list(node_cursor(before_tail_ver.nodep()), node_cursor(vh_iterator().nodep())).to_vh_iterator();
 		set_size(width_, height_ - 1);
 	}
 }
@@ -208,7 +230,8 @@ void forked_linked_list<T>::pop_front_ver_list()
 	{
 		auto itr = head_;
 		head_.forward_hor();
-		scrap_ver_list(itr);
+		// scrap_ver_list(itr);
+		scrap_ver_list(node_cursor(itr.nodep()));
 		set_size(width_ - 1, height_);
 		reset_tail_ver();
 	}
@@ -221,7 +244,8 @@ void forked_linked_list<T>::pop_front_hor_list()
 	{
 		auto itr = head_;
 		head_.forward_var();
-		scrap_hor_list(itr);
+		// scrap_hor_list(itr);
+		scrap_hor_list(node_cursor(itr.nodep()));
 		set_size(width_, height_ - 1);
 		reset_tail_hor();
 	}
@@ -243,8 +267,10 @@ forked_linked_list<T>::erase_ver_list(h_iterator previous)
 		++after_next;
 		++after_next;
 
-		join_ver_list(previous, after_next);
-		scrap_ver_list(next);
+		// join_ver_list(previous, after_next);
+		join_ver_list(node_cursor(previous.nodep()), node_cursor(after_next.nodep()));
+		// scrap_ver_list(next);
+		scrap_ver_list(node_cursor(next.nodep()));
 
 		set_size(width_ - 1, height_);
 		reset_tail_hor();
@@ -269,8 +295,10 @@ forked_linked_list<T>::erase_hor_list(v_iterator previous)
 		++after_next;
 		++after_next;
 
-		join_hor_list(previous, after_next);
-		scrap_hor_list(next);
+		// join_hor_list(previous, after_next);
+		join_hor_list(node_cursor(previous.nodep()), node_cursor(after_next.nodep()));
+		// scrap_hor_list(next);
+		scrap_hor_list(node_cursor(next.nodep()));
 
 		set_size(width_, height_ - 1);
 		reset_tail_ver();
@@ -303,7 +331,8 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 	}
 	else if(size() == 0)
 	{
-		head_ = build(width, height, def_val);
+		// head_ = build(width, height, def_val);
+		head_ = build(width, height, def_val).to_vh_iterator();
 		set_size(width, height);
 		reset_tails();
 	}
@@ -350,58 +379,66 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 }
 
 template <typename T>
-typename forked_linked_list<T>::vh_iterator
+typename forked_linked_list<T>::node_cursor
 forked_linked_list<T>::build(size_t width, size_t height, const T &def_val)
 {
 	if(width * height == 0)
-		return std::move(vh_iterator());
+		return std::move(node_cursor(nullptr));
 
 	// create a base list
 	auto origin = build_hor_list(width, def_val);
 
-	auto itr = origin;
+	auto cursor = origin;
 	for(size_t i = 1; i < height; ++i)
 	{
-		join_hor_list(itr, build_hor_list(width, def_val));
+		// join_hor_list(cursor, build_hor_list(width, def_val));
+		join_hor_list(cursor, build_hor_list(width, def_val));
 
 		// move to the node above
-		itr.forward_var();
+		cursor.move_ver();
 	}
 
 	return std::move(origin);
 }
 
 template <typename T>
-typename forked_linked_list<T>::vh_iterator
+typename forked_linked_list<T>::node_cursor
 forked_linked_list<T>::build_ver_list(size_t height, const T &def_val)
 {
 	if(height == 0)
-		return std::move(vh_iterator(nullptr, run_dir::kVertical));
+		return std::move(node_cursor(nullptr));
 
-	auto head = vh_iterator(new node(def_val), run_dir::kVertical);
-	auto itr = head;
+	// auto head = vh_iterator(new node(def_val), run_dir::kVertical);
+	node_cursor head(new node(def_val));
+	auto cursor = head;
 	for(size_t i = 1; i < height; ++i)
 	{
-		itr.nodep()->v_next = new node(def_val);
-		++itr;
+		// itr.nodep()->v_next = new node(def_val);
+		cursor->v_next = new node(def_val);
+		// ++itr;
+		cursor.move_ver();
 	}
 
-	return head;
+	return std::move(head);
 }
 
 template <typename T>
-typename forked_linked_list<T>::vh_iterator
+typename forked_linked_list<T>::node_cursor
 forked_linked_list<T>::build_hor_list(size_t width, const T &def_val)
 {
 	if(width == 0)
-		return std::move(vh_iterator(nullptr, run_dir::kHorizontal));
+		return std::move(node_cursor(nullptr));
+		// return std::move(vh_iterator(nullptr, run_dir::kHorizontal));
 
-	auto head = vh_iterator(new node(def_val), run_dir::kHorizontal);
-	auto itr = head;
+	// auto head = vh_iterator(new node(def_val), run_dir::kHorizontal);
+	node_cursor head(new node(def_val));
+	auto cursor = head;
 	for(size_t i = 1; i < width; ++i)
 	{
-		itr.nodep()->h_next = new node(def_val);
-		++itr;
+		// itr.nodep()->h_next = new node(def_val);
+		cursor->h_next = new node(def_val);
+		// ++itr;
+		cursor.move_hor();
 	}
 
 	return std::move(head);
@@ -429,58 +466,58 @@ void forked_linked_list<T>::set_size(size_t width, size_t height)
 }
 
 template <typename T>
-typename forked_linked_list<T>::vh_iterator
-forked_linked_list<T>::join_ver_list(vh_iterator left, vh_iterator right)
+typename forked_linked_list<T>::node_cursor
+forked_linked_list<T>::join_ver_list(node_cursor left, node_cursor right)
 {
-	if(left.nodep() == nullptr)
+	if(*left == nullptr)
 	{
 		return std::move(left);
 	}
 
-	auto l_itr = left;
+	auto l_cursor = left;
+	for(; *left != nullptr; left.move_ver(), right.move_ver())
 	{
-	for(; left != vhend(); left.forward_var(), right.forward_var())
-		left.nodep()->h_next = right.nodep();
+		left->h_next = *right;
 	}
 
-	return std::move(l_itr);
+	return std::move(l_cursor);
 }
 
 template <typename T>
-typename forked_linked_list<T>::vh_iterator
-forked_linked_list<T>::join_hor_list(vh_iterator below, vh_iterator above)
+typename forked_linked_list<T>::node_cursor
+forked_linked_list<T>::join_hor_list(node_cursor below, node_cursor above)
 {
-	if(below.nodep() == nullptr)
+	if(*below == nullptr)
 	{
 		return std::move(below);
 	}
 
-	auto b_itr = below;
-	for(; below != vhend(); below.forward_hor(), above.forward_hor())
+	auto b_cursor = below;
+	for(; below != nullptr; below.move_hor(), above.move_hor())
 	{
-		below.nodep()->v_next = above.nodep();
+		below->v_next = *above;
 	}
 
-	return std::move(b_itr);
+	return std::move(b_cursor);
 }
 
 template <typename T>
-void forked_linked_list<T>::scrap_ver_list(vh_iterator head)
+void forked_linked_list<T>::scrap_ver_list(node_cursor head)
 {
-	for(auto np = head.nodep(); np != nullptr; np = head.nodep())
+	for(auto cursor = head; *cursor != nullptr; cursor = head)
 	{
-		head.forward_var();
-		delete np;
+		head.move_ver();
+		delete *cursor;
 	}
 }
 
 template <typename T>
-void forked_linked_list<T>::scrap_hor_list(vh_iterator head)
+void forked_linked_list<T>::scrap_hor_list(node_cursor head)
 {
-	for(auto np = head.nodep(); np != nullptr; np = head.nodep())
+	for(auto cursor = head; *cursor != nullptr; cursor = head)
 	{
-		head.forward_hor();
-		delete np;
+		head.move_hor();
+		delete *cursor;
 	}
 }
 

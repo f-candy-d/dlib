@@ -24,6 +24,7 @@ public:
 	using const_h_iterator = forked_linked_list_bits::const_h_iterator<T>;
 	using run_dir = forked_linked_list_bits::running_direction;
 	using node = forked_linked_list_bits::node<T>;
+	using node_cursor = forked_linked_list_bits::node_cursor<T>;
 
 	forked_linked_list();
 	forked_linked_list(size_t width, size_t height);
@@ -83,14 +84,14 @@ private:
 	size_t capacity_width_;
 	size_t capacity_height_;
 
-	vh_iterator build(size_t width, size_t height, const T& def_val = T());
-	vh_iterator build_ver_list(size_t height, const T& def_val = T());
-	vh_iterator build_hor_list(size_t width, const T& def_val = T());
+	node_cursor build(size_t width, size_t height, const T& def_val = T());
+	node_cursor build_ver_list(size_t height, const T& def_val = T());
+	node_cursor build_hor_list(size_t width, const T& def_val = T());
 	void set_size(size_t width, size_t height);
-	vh_iterator join_ver_list(vh_iterator left, vh_iterator right);
-	vh_iterator join_hor_list(vh_iterator below, vh_iterator above);
-	void scrap_ver_list(vh_iterator head);
-	void scrap_hor_list(vh_iterator head);
+	node_cursor join_ver_list(node_cursor left, node_cursor right);
+	node_cursor join_hor_list(node_cursor below, node_cursor above);
+	void scrap_ver_list(node_cursor head);
+	void scrap_hor_list(node_cursor head);
 	void on_size_zero();
 	void reset_tails();
 	void reset_tail_ver();
