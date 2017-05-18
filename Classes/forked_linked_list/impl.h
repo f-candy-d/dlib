@@ -264,8 +264,7 @@ template <typename T>
 typename forked_linked_list<T>::v_iterator
 forked_linked_list<T>::erase_hor_list(v_iterator previous)
 {
-	// if(previous.nodep() == nullptr || previous == tail_ver_ || size() == 0)
-	if(previous.nodep() == nullptr || previous == v_iterator(*tail_ver_) || size() == 0)
+	if(previous == vend() || previous == tail_ver_.to_v_iterator() || size() == 0)
 	{
 		return std::move(vend());
 	}
