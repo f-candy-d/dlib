@@ -11,12 +11,12 @@
 
 namespace dlib
 {
-	// forward declaration
-	// set this class as friend of iterator class
-	// template <typename T> class forked_linked_list;
-
 namespace forked_linked_list_bits
 {
+
+// forward declaration
+// set this class as friend of iterator class
+template <typename T> class node_cursor;
 
 // the running direction of an iterator (forward vertically or horizontally)
 enum class running_direction
@@ -28,8 +28,8 @@ enum class running_direction
 template <typename T> struct vh_iterator : public std::iterator<
 	std::forward_iterator_tag, T, std::ptrdiff_t, T*, T&>
 {
-	// enable to use nodep()
-	// friend forked_linked_list<T>;
+	// enable to access to 'node<T>* np'
+	friend node_cursor<T>;
 
 	vh_iterator() :np(nullptr),r_dir(running_direction::kVertical) {}
 	vh_iterator(node<T>* p) :np(p),r_dir(running_direction::kVertical) {}
@@ -68,6 +68,9 @@ template <typename T> struct vh_iterator : public std::iterator<
 private:
 	node<T>* np;
 	running_direction r_dir;
+
+	node<T>* node_p() { return np; }
+	const node<T>* node_p() const { return np; }
 };
 
 // const vh-iterator

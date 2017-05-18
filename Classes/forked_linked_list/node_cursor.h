@@ -37,6 +37,7 @@ private:
 
 	node_cursor() :np(nullptr) {}
 	node_cursor(node<T>* p) :np(p) {}
+	node_cursor(vh_iterator<T>& itr) :np(itr.node_p()) {}
 };
 
 } /* namespace forked_linked_list_bits */
