@@ -41,8 +41,6 @@ template <typename T> struct vh_iterator : public std::iterator<
 	vh_iterator& forward_ver() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }
 	vh_iterator& forward_hor() { np = (np != nullptr) ? np->h_next : nullptr; return *this; }
 	void set_running_dir(running_direction dir) { r_dir = dir; }
-	node<T>* nodep() { return np; }
-	const node<T>* nodep() const { return np; }
 
 	vh_iterator& operator++()
 	{

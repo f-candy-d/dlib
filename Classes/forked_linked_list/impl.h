@@ -233,10 +233,8 @@ template <typename T>
 typename forked_linked_list<T>::h_iterator
 forked_linked_list<T>::erase_ver_list(h_iterator previous)
 {
-	// if(previous.nodep() == nullptr || previous == tail_hor_ || size() == 0)
 	node_cursor prev_cursor(previous);
 
-	// if(previous.nodep() == nullptr || previous == tail_hor_.to_h_iterator() || size() == 0)
 	if(*prev_cursor == nullptr || prev_cursor == tail_hor_ || size() == 0)
 	{
 		return std::move(hend());
@@ -245,17 +243,12 @@ forked_linked_list<T>::erase_ver_list(h_iterator previous)
 	{
 		auto next = prev_cursor;
 		auto after_next = prev_cursor;
-		// ++next;
-		// ++after_next;
-		// ++after_next;
 		next.move_hor();
 		after_next.move_hor();
 		after_next.move_hor();
 
 		join_ver_list(prev_cursor, after_next);
-		// join_ver_list(node_cursor(previous.nodep()), node_cursor(after_next.nodep()));
 		scrap_ver_list(next);
-		// scrap_ver_list(node_cursor(next.nodep()));
 
 		set_size(width_ - 1, height_);
 		reset_tail_hor();
@@ -276,21 +269,14 @@ forked_linked_list<T>::erase_hor_list(v_iterator previous)
 	}
 	else
 	{
-		// auto next = previous;
-		// auto after_next = previous;
 		auto next = prev_cursor;
 		auto after_next = prev_cursor;
-		// ++next;
-		// ++after_next;
-		// ++after_next;
 		next.move_ver();
 		after_next.move_ver();
 		after_next.move_ver();
 
 		join_hor_list(previous, after_next);
-		// join_hor_list(node_cursor(previous.nodep()), node_cursor(after_next.nodep()));
 		scrap_hor_list(next);
-		// scrap_hor_list(node_cursor(next.nodep()));
 
 		set_size(width_, height_ - 1);
 		reset_tail_ver();
@@ -324,7 +310,6 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 	else if(size() == 0)
 	{
 		head_ = build(width, height, def_val);
-		// head_ = build(width, height, def_val).to_vh_iterator();
 		set_size(width, height);
 		reset_tails();
 	}
@@ -383,7 +368,6 @@ forked_linked_list<T>::build(size_t width, size_t height, const T &def_val)
 	auto cursor = origin;
 	for(size_t i = 1; i < height; ++i)
 	{
-		// join_hor_list(cursor, build_hor_list(width, def_val));
 		join_hor_list(cursor, build_hor_list(width, def_val));
 
 		// move to the node above
@@ -400,14 +384,11 @@ forked_linked_list<T>::build_ver_list(size_t height, const T &def_val)
 	if(height == 0)
 		return std::move(node_cursor(nullptr));
 
-	// auto head = vh_iterator(new node(def_val), run_dir::kVertical);
 	node_cursor head(new node(def_val));
 	auto cursor = head;
 	for(size_t i = 1; i < height; ++i)
 	{
-		// itr.nodep()->v_next = new node(def_val);
 		cursor->v_next = new node(def_val);
-		// ++itr;
 		cursor.move_ver();
 	}
 
@@ -420,16 +401,12 @@ forked_linked_list<T>::build_hor_list(size_t width, const T &def_val)
 {
 	if(width == 0)
 		return std::move(node_cursor(nullptr));
-		// return std::move(vh_iterator(nullptr, run_dir::kHorizontal));
 
-	// auto head = vh_iterator(new node(def_val), run_dir::kHorizontal);
 	node_cursor head(new node(def_val));
 	auto cursor = head;
 	for(size_t i = 1; i < width; ++i)
 	{
-		// itr.nodep()->h_next = new node(def_val);
 		cursor->h_next = new node(def_val);
-		// ++itr;
 		cursor.move_hor();
 	}
 
@@ -516,7 +493,6 @@ void forked_linked_list<T>::scrap_hor_list(node_cursor head)
 template <typename T>
 void forked_linked_list<T>::on_size_zero()
 {
-	// head_ = tail_hor_ = tail_ver_ = vhend();
 	*head_ = *tail_hor_ = *tail_ver_ = nullptr;
 }
 
@@ -530,16 +506,11 @@ void forked_linked_list<T>::reset_tails()
 template <typename T>
 void forked_linked_list<T>::reset_tail_ver()
 {
-	if(*head_ == vhend().nodep())
-	{
-		// tail_ver_ = vhend();
-		*tail_ver_ = vhend().nodep();
-	}
-	else
+	tail_ver_ = head_;
+
+	if(*head_ != nullptr)
 	{
 		// find vertical tail
-		tail_ver_ = head_;
-		// for(; *tail_ver_->v_next != nullptr; tail_ver_.forward_ver());
 		for(; tail_ver_->v_next != nullptr; tail_ver_.move_ver());
 	}
 }
@@ -547,14 +518,11 @@ void forked_linked_list<T>::reset_tail_ver()
 template <typename T>
 void forked_linked_list<T>::reset_tail_hor()
 {
-	if(*head_ == vhend().nodep())
-	{
-		tail_hor_ = vhend().nodep();
-	}
-	else
+	tail_hor_ = head_;
+
+	if(*head_ != nullptr)
 	{
 		// find horizontal tail
-		tail_hor_ = head_;
 		for(; tail_hor_->h_next != nullptr; tail_hor_.move_hor());
 	}
 }
