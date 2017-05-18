@@ -77,8 +77,8 @@ public:
 
 private:
 	node_cursor head_;
-	vh_iterator tail_var_;
-	vh_iterator tail_hor_;
+	node_cursor tail_var_;
+	node_cursor tail_hor_;
 	size_t width_;
 	size_t height_;
 	size_t capacity_width_;
