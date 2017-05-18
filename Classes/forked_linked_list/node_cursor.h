@@ -27,8 +27,8 @@ public:
 	vh_iterator<T> to_vh_iterator() { return std::move(vh_iterator<T>(np, running_direction::kVertical)); }
 	v_iterator<T> to_v_iterator() { return std::move(v_iterator<T>(np)); }
 	h_iterator<T> to_h_iterator() { return std::move(h_iterator<T>(np)); }
-	void move_ver() { np = (np != nullptr) ? np->v_next : nullptr; }
-	void move_hor() { np = (np != nullptr) ? np->h_next : nullptr; }
+	node_cursor& move_ver() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }
+	node_cursor& move_hor() { np = (np != nullptr) ? np->h_next : nullptr; return *this; }
 	bool operator==(const node_cursor& other) { return (np == other.np); }
 	bool operator!=(const node_cursor& other) { return !(*this == other); }
 

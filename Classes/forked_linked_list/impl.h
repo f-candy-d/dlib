@@ -128,27 +128,21 @@ forked_linked_list<T>::insert_ver_list(h_iterator previous, const T &def_val)
 		return std::move(previous);
 	}
 
-	// if(previous == tail_hor_)
-	if(previous == h_iterator(*tail_hor_))
+	if(node_cursor(previous.nodep()) == tail_hor_)
 	{
 		// push back
 		push_back_ver_list(def_val);
-		// return std::move(h_iterator(*tail_hor_));
-		return std::move(h_iterator(*tail_hor_));
+		return std::move(tail_hor_.to_h_iterator());
 	}
 	else
 	{
-		// auto new_ver_list = build_ver_list(height_, def_val);
-		auto new_ver_list = build_ver_list(height_, def_val).to_v_iterator();
-		auto next_list = previous;
-		++next_list;
-		// join_ver_list(new_ver_list, next_list);
-		join_ver_list(node_cursor(new_ver_list.nodep()), node_cursor(next_list.nodep()));
-		// join_ver_list(previous, new_ver_list);
-		join_ver_list(node_cursor(previous.nodep()), node_cursor(new_ver_list.nodep()));
+		auto new_ver_list = build_ver_list(height_, def_val);
+		auto next_list = node_cursor(previous.nodep()).move_hor();
+		join_ver_list(new_ver_list, next_list);
+		join_ver_list(node_cursor(previous.nodep()), new_ver_list);
 		set_size(width_ + 1, height_);
 
-		return std::move(h_iterator(new_ver_list.nodep()));
+		return std::move(new_ver_list.to_h_iterator());
 	}
 }
 
@@ -161,27 +155,21 @@ forked_linked_list<T>::insert_hor_list(v_iterator previous, const T &def_val)
 		return std::move(previous);
 	}
 
-	// if(previous == tail_hor_)
-	if(previous == v_iterator(*tail_hor_))
+	if(node_cursor(previous.nodep()) == tail_var_)
 	{
 		// push back
 		push_back_hor_list(def_val);
-		// return std::move(v_iterator(*tail_var_));
-		return std::move(v_iterator(*tail_var_));
+		return std::move(v_iterator(tail_var_.to_v_iterator()));
 	}
 	else
 	{
-		// auto new_hor_list = build_hor_list(width_, def_val);
-		auto new_hor_list = build_hor_list(width_, def_val).to_h_iterator();
-		auto next_list = previous;
-		++next_list;
-		// join_hor_list(new_hor_list, next_list);
-		join_hor_list(node_cursor(new_hor_list.nodep()), node_cursor(next_list.nodep()));
-		// join_hor_list(previous, new_hor_list);
-		join_hor_list(node_cursor(previous.nodep()), node_cursor(new_hor_list.nodep()));
+		auto new_hor_list = build_hor_list(width_, def_val);
+		auto next_list = node_cursor(previous.nodep()).move_ver();
+		join_hor_list(new_hor_list, next_list);
+		join_hor_list(node_cursor(previous.nodep()), new_hor_list);
 		set_size(width_, height_ + 1);
 
-		return std::move(v_iterator(new_hor_list.nodep()));
+		return std::move(new_hor_list.to_v_iterator());
 	}
 }
 

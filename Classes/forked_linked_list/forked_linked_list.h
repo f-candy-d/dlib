@@ -54,7 +54,7 @@ public:
 	size_t capacity_height() const { return capacity_height_; }
 	void fit_capacity() { capacity_width_ = width_; capacity_height_ = height_; }
 	// vh-iterator
-	vh_iterator vhbegin() { return std::move(head_.to_vh_iterator()); }
+	vh_iterator vhbegin() { return std::move(vh_iterator(*head_, run_dir::kVertical)); }
 	const_vh_iterator vhbegin() const { return const_vh_iterator(*head_, run_dir::kVertical); }
 	const_vh_iterator cvhbegin() const { return const_vh_iterator(*head_, run_dir::kVertical); }
 	vh_iterator vhend() { return vh_iterator(nullptr, run_dir::kVertical); }
