@@ -54,12 +54,12 @@ public:
 	size_t capacity_height() const { return capacity_height_; }
 	void fit_capacity() { capacity_width_ = width_; capacity_height_ = height_; }
 	// vh-iterator
-	vh_iterator vhbegin() { return std::move(vh_iterator(*head_, run_dir::kVertical)); }
-	const_vh_iterator vhbegin() const { return const_vh_iterator(*head_, run_dir::kVertical); }
-	const_vh_iterator cvhbegin() const { return const_vh_iterator(*head_, run_dir::kVertical); }
-	vh_iterator vhend() { return vh_iterator(nullptr, run_dir::kVertical); }
-	const_vh_iterator vhend() const { return const_vh_iterator(nullptr, run_dir::kVertical); }
-	const_vh_iterator cvhend() const { return const_vh_iterator(nullptr, run_dir::kVertical); }
+	vh_iterator vhbegin() { return std::move(vh_iterator(*head_)); }
+	const_vh_iterator vhbegin() const { return const_vh_iterator(*head_); }
+	const_vh_iterator cvhbegin() const { return const_vh_iterator(*head_); }
+	vh_iterator vhend() { return vh_iterator(nullptr); }
+	const_vh_iterator vhend() const { return const_vh_iterator(nullptr); }
+	const_vh_iterator cvhend() const { return const_vh_iterator(nullptr); }
 	// v-iterator
 	v_iterator vbegin() { return v_iterator(*head_); }
 	const_v_iterator vbegin() const { return const_v_iterator(*head_); }
@@ -77,7 +77,7 @@ public:
 
 private:
 	node_cursor head_;
-	node_cursor tail_var_;
+	node_cursor tail_ver_;
 	node_cursor tail_hor_;
 	size_t width_;
 	size_t height_;

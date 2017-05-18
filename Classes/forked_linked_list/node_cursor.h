@@ -24,7 +24,7 @@ template <typename T> class node_cursor
 public:
 	node<T>*& operator*() { return np; }
 	node<T>* operator->() { return &*np; }
-	vh_iterator<T> to_vh_iterator() { return std::move(vh_iterator<T>(np, running_direction::kVertical)); }
+	vh_iterator<T> to_vh_iterator() { return std::move(vh_iterator<T>(np)); }
 	v_iterator<T> to_v_iterator() { return std::move(v_iterator<T>(np)); }
 	h_iterator<T> to_h_iterator() { return std::move(h_iterator<T>(np)); }
 	node_cursor& move_ver() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }

@@ -32,12 +32,13 @@ template <typename T> struct vh_iterator : public std::iterator<
 	// friend forked_linked_list<T>;
 
 	vh_iterator() :np(nullptr),r_dir(running_direction::kVertical) {}
+	vh_iterator(node<T>* p) :np(p),r_dir(running_direction::kVertical) {}
 	vh_iterator(node<T>* p, running_direction dir) :np(p),r_dir(dir) {}
 	T& operator*() const { return np->value; }
 	T* operator->() const { return &**this; }
 	bool operator==(const vh_iterator& other) const { return (np == other.np); }
 	bool operator!=(const vh_iterator& other) const { return !(*this == other); }
-	vh_iterator& forward_var() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }
+	vh_iterator& forward_ver() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }
 	vh_iterator& forward_hor() { np = (np != nullptr) ? np->h_next : nullptr; return *this; }
 	void set_running_dir(running_direction dir) { r_dir = dir; }
 	node<T>* nodep() { return np; }
@@ -48,7 +49,7 @@ template <typename T> struct vh_iterator : public std::iterator<
 		switch(r_dir)
 		{
 			case running_direction::kVertical :
-				return forward_var();
+				return forward_ver();
 
 			case running_direction::kHorizontal :
 				return forward_hor();
@@ -112,7 +113,7 @@ template <typename T> struct v_iterator : public vh_iterator<T>
 
 private:
 	// disable the following methods
-	v_iterator& forward_var() {}
+	v_iterator& forward_ver() {}
 	v_iterator& forward_hor() {}
 	void set_running_dir(running_direction dir) {}
 };
@@ -160,7 +161,7 @@ template <typename T> struct h_iterator : public vh_iterator<T>
 
 private:
 	// disable the following methods
-	h_iterator& forward_var() {}
+	h_iterator& forward_ver() {}
 	h_iterator& forward_hor() {}
 	void set_running_dir(running_direction dir) {}
 };

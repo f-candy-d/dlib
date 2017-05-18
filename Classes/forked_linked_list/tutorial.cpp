@@ -6,7 +6,7 @@ template <typename T>
 void print_list(dlib::forked_linked_list<T>& list)
 {
 	std::cout << '\n' << "[ list log ]" << '\n';
-	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_ver())
 	{
 		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
 	print_list<int>(list);
 
 	int c = 10;
-	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_var())
+	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_ver())
 	{
 		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
 		{
