@@ -79,6 +79,7 @@ private:
 	node_cursor head_;
 	node_cursor tail_ver_;
 	node_cursor tail_hor_;
+	const node_cursor null_cursor_;
 	size_t width_;
 	size_t height_;
 	size_t capacity_width_;

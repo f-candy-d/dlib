@@ -15,7 +15,7 @@ namespace forked_linked_list_bits
 {
 
 // forward declaration
-// set this class as friend of iterator class
+// set this class as friend of vh-iterator class
 template <typename T> class node_cursor;
 
 // the running direction of an iterator (forward vertically or horizontally)
@@ -28,7 +28,7 @@ enum class running_direction
 template <typename T> struct vh_iterator : public std::iterator<
 	std::forward_iterator_tag, T, std::ptrdiff_t, T*, T&>
 {
-	// enable to access to 'node<T>* np'
+	// enable to use a private method 'node_p()'
 	friend node_cursor<T>;
 
 	vh_iterator() :np(nullptr),r_dir(running_direction::kVertical) {}
@@ -41,6 +41,26 @@ template <typename T> struct vh_iterator : public std::iterator<
 	vh_iterator& forward_ver() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }
 	vh_iterator& forward_hor() { np = (np != nullptr) ? np->h_next : nullptr; return *this; }
 	void set_running_dir(running_direction dir) { r_dir = dir; }
+
+	vh_iterator& advance_ver(size_t delta)
+	{
+		for(size_t i = 0; i < delta; ++i)
+		{
+			forward_ver();
+		}
+
+		return *this;
+	}
+
+	vh_iterator& advance_hor(size_t delta)
+	{
+		for(size_t i = 0; i < delta; ++i)
+		{
+			forward_hor();
+		}
+
+		return *this;
+	}
 
 	vh_iterator& operator++()
 	{
@@ -79,6 +99,18 @@ template <typename T> struct const_vh_iterator : public vh_iterator<T>
 	const T& operator*() const { return vh_iterator<T>::operator*(); }
 	const T* operator->() const { return vh_iterator<T>::operator->(); }
 
+	const_vh_iterator& advance_ver(size_t delta)
+	{
+		vh_iterator<T>::advance_ver(delta);
+		return *this;
+	}
+
+	const_vh_iterator& advance_hor(size_t delta)
+	{
+		vh_iterator<T>::advance_hor(delta);
+		return *this;
+	}
+
 	const_vh_iterator& operator++()
 	{
 		vh_iterator<T>::operator++();
@@ -98,6 +130,18 @@ template <typename T> struct v_iterator : public vh_iterator<T>
 {
 	v_iterator() :vh_iterator<T>(nullptr, running_direction::kVertical) {}
 	v_iterator(node<T>* p) :vh_iterator<T>(p, running_direction::kVertical) {}
+
+	v_iterator& advance_ver(size_t delta)
+	{
+		vh_iterator<T>::advance_ver(delta);
+		return *this;
+	}
+
+	v_iterator& advance_hor(size_t delta)
+	{
+		vh_iterator<T>::advance_hor(delta);
+		return *this;
+	}
 
 	v_iterator& operator++()
 	{
@@ -127,6 +171,18 @@ template <typename T> struct const_v_iterator : public v_iterator<T>
 	const T& operator*() const { return v_iterator<T>::operator*(); }
 	const T* operator->() const { return v_iterator<T>::operator->(); }
 
+	const_v_iterator& advance_ver(size_t delta)
+	{
+		v_iterator<T>::advance_ver(delta);
+		return *this;
+	}
+
+	const_v_iterator& advance_hor(size_t delta)
+	{
+		v_iterator<T>::advance_hor(delta);
+		return *this;
+	}
+
 	const_v_iterator& operator++()
 	{
 		v_iterator<T>::operator++();
@@ -146,6 +202,18 @@ template <typename T> struct h_iterator : public vh_iterator<T>
 {
 	h_iterator() :vh_iterator<T>(nullptr, running_direction::kHorizontal) {}
 	h_iterator(node<T>* p) :vh_iterator<T>(p, running_direction::kHorizontal) {}
+
+	h_iterator& advance_ver(size_t delta)
+	{
+		vh_iterator<T>::advance_ver(delta);
+		return *this;
+	}
+
+	h_iterator& advance_hor(size_t delta)
+	{
+		vh_iterator<T>::advance_hor(delta);
+		return *this;
+	}
 
 	h_iterator& operator++()
 	{
@@ -175,9 +243,21 @@ template <typename T> struct const_h_iterator : public h_iterator<T>
 	const T& operator*() const { return v_iterator<T>::operator*(); }
 	const T* operator->() const { return v_iterator<T>::operator->(); }
 
+	const_h_iterator& advance_ver(size_t delta)
+	{
+		h_iterator<T>::advance_ver(delta);
+		return *this;
+	}
+
+	const_h_iterator& advance_hor(size_t delta)
+	{
+		h_iterator<T>::advance_hor(delta);
+		return *this;
+	}
+
 	const_h_iterator& operator++()
 	{
-		v_iterator<T>::operator++();
+		h_iterator<T>::operator++();
 		return *this;
 	}
 
