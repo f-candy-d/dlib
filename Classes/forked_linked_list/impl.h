@@ -268,27 +268,34 @@ template <typename T>
 typename forked_linked_list<T>::v_iterator
 forked_linked_list<T>::erase_hor_list(v_iterator previous)
 {
-	if(previous == vend() || previous == tail_ver_.to_v_iterator() || size() == 0)
+	node_cursor prev_cursor(previous);
+
+	if(*prev_cursor == nullptr || prev_cursor == tail_ver_ || size() == 0)
 	{
 		return std::move(vend());
 	}
 	else
 	{
-		auto next = previous;
-		auto after_next = previous;
-		++next;
-		++after_next;
-		++after_next;
+		// auto next = previous;
+		// auto after_next = previous;
+		auto next = prev_cursor;
+		auto after_next = prev_cursor;
+		// ++next;
+		// ++after_next;
+		// ++after_next;
+		next.move_ver();
+		after_next.move_ver();
+		after_next.move_ver();
 
-		// join_hor_list(previous, after_next);
-		join_hor_list(node_cursor(previous.nodep()), node_cursor(after_next.nodep()));
-		// scrap_hor_list(next);
-		scrap_hor_list(node_cursor(next.nodep()));
+		join_hor_list(previous, after_next);
+		// join_hor_list(node_cursor(previous.nodep()), node_cursor(after_next.nodep()));
+		scrap_hor_list(next);
+		// scrap_hor_list(node_cursor(next.nodep()));
 
 		set_size(width_, height_ - 1);
 		reset_tail_ver();
 
-		return std::move(after_next);
+		return std::move(after_next.to_v_iterator());
 	}
 }
 
@@ -510,7 +517,7 @@ template <typename T>
 void forked_linked_list<T>::on_size_zero()
 {
 	// head_ = tail_hor_ = tail_ver_ = vhend();
-	*head_ = *tail_hor_ = *tail_ver_ = vhend().nodep();
+	*head_ = *tail_hor_ = *tail_ver_ = nullptr;
 }
 
 template <typename T>
