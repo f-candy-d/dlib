@@ -191,12 +191,10 @@ void forked_linked_list<T>::pop_back_hor_list()
 {
 	if(size() != 0)
 	{
-		// auto before_tail_ver = head_;
-		auto before_tail_ver = head_.to_vh_iterator();
-		for(; before_tail_ver.nodep()->v_next != *tail_ver_; before_tail_ver.forward_ver());
+		auto before_tail_ver = head_;
+		for(; before_tail_ver->v_next != *tail_ver_; before_tail_ver.move_ver());
 		scrap_hor_list(tail_ver_);
-		// tail_ver_ = join_hor_list(before_tail_ver, vh_iterator());
-		tail_ver_ = join_hor_list(node_cursor(before_tail_ver.nodep()), node_cursor(vh_iterator().nodep()));
+		tail_ver_ = join_hor_list(before_tail_ver, node_cursor(nullptr));
 		set_size(width_, height_ - 1);
 	}
 }
