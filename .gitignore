@@ -1,7 +1,10 @@
 # ignore files with no extension in all the directories that contained by the Classes directory
 Classes/*/*
 !Classes/*/*.*
+
+# ignore pre-compiled files
 Classes/*/*.gch
 
+# others...
 .gitignore~
 .tags*
