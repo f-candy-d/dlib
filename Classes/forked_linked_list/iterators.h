@@ -131,15 +131,9 @@ template <typename T> struct v_iterator : public vh_iterator<T>
 	v_iterator() :vh_iterator<T>(nullptr, running_direction::kVertical) {}
 	v_iterator(node<T>* p) :vh_iterator<T>(p, running_direction::kVertical) {}
 
-	v_iterator& advance_ver(size_t delta)
+	v_iterator& advance(size_t delta)
 	{
 		vh_iterator<T>::advance_ver(delta);
-		return *this;
-	}
-
-	v_iterator& advance_hor(size_t delta)
-	{
-		vh_iterator<T>::advance_hor(delta);
 		return *this;
 	}
 
@@ -160,6 +154,8 @@ private:
 	// disable the following methods
 	v_iterator& forward_ver() {}
 	v_iterator& forward_hor() {}
+	v_iterator& advance_ver(size_t delta) {}
+	v_iterator& advance_hor(size_t delta) {}
 	void set_running_dir(running_direction dir) {}
 };
 
@@ -171,17 +167,12 @@ template <typename T> struct const_v_iterator : public v_iterator<T>
 	const T& operator*() const { return v_iterator<T>::operator*(); }
 	const T* operator->() const { return v_iterator<T>::operator->(); }
 
-	const_v_iterator& advance_ver(size_t delta)
+	const_v_iterator& advance(size_t delta)
 	{
 		v_iterator<T>::advance_ver(delta);
 		return *this;
 	}
 
-	const_v_iterator& advance_hor(size_t delta)
-	{
-		v_iterator<T>::advance_hor(delta);
-		return *this;
-	}
 
 	const_v_iterator& operator++()
 	{
@@ -203,17 +194,12 @@ template <typename T> struct h_iterator : public vh_iterator<T>
 	h_iterator() :vh_iterator<T>(nullptr, running_direction::kHorizontal) {}
 	h_iterator(node<T>* p) :vh_iterator<T>(p, running_direction::kHorizontal) {}
 
-	h_iterator& advance_ver(size_t delta)
-	{
-		vh_iterator<T>::advance_ver(delta);
-		return *this;
-	}
-
-	h_iterator& advance_hor(size_t delta)
+	h_iterator& advance(size_t delta)
 	{
 		vh_iterator<T>::advance_hor(delta);
 		return *this;
 	}
+
 
 	h_iterator& operator++()
 	{
@@ -232,6 +218,9 @@ private:
 	// disable the following methods
 	h_iterator& forward_ver() {}
 	h_iterator& forward_hor() {}
+	h_iterator& advance_ver(size_t delta) {}
+	h_iterator& advance_hor(size_t delta) {}
+	// h_iterator& advance_hor(size_t delta) {}
 	void set_running_dir(running_direction dir) {}
 };
 
@@ -243,17 +232,12 @@ template <typename T> struct const_h_iterator : public h_iterator<T>
 	const T& operator*() const { return v_iterator<T>::operator*(); }
 	const T* operator->() const { return v_iterator<T>::operator->(); }
 
-	const_h_iterator& advance_ver(size_t delta)
+	const_h_iterator& advance(size_t delta)
 	{
-		h_iterator<T>::advance_ver(delta);
+		h_iterator<T>::advance(delta);
 		return *this;
 	}
 
-	const_h_iterator& advance_hor(size_t delta)
-	{
-		h_iterator<T>::advance_hor(delta);
-		return *this;
-	}
 
 	const_h_iterator& operator++()
 	{

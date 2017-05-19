@@ -354,6 +354,62 @@ void forked_linked_list<T>::resize(size_t width, size_t height, const T& def_val
 }
 
 template <typename T>
+void forked_linked_list<T>::swap_ver_list(h_iterator prev_left_itr, h_iterator prev_right_itr)
+{
+	node_cursor prev_left(prev_left_itr);
+	node_cursor prev_right(prev_right_itr);
+
+	if(prev_left == null_cursor_ || prev_right == null_cursor_)
+		return;
+
+	node_cursor left(prev_left->h_next);
+	node_cursor right(prev_right->h_next);
+	node_cursor next_right(right->h_next);
+
+	if(prev_left != right && prev_right != left)
+	{
+		join_ver_list(prev_right, left);
+		join_ver_list(prev_left, right);
+		join_ver_list(right, node_cursor(left->h_next));
+		join_ver_list(left, next_right);
+	}
+	else
+	{
+		join_ver_list(left, next_right);
+		join_ver_list(right, left);
+		join_ver_list(prev_left, right);
+	}
+}
+
+template <typename T>
+void forked_linked_list<T>::swap_hor_list(v_iterator prev_below_itr, v_iterator prev_above_itr)
+{
+	node_cursor prev_below(prev_below_itr);
+	node_cursor prev_above(prev_above_itr);
+
+	if(prev_below == null_cursor_ || prev_above == null_cursor_)
+		return;
+
+	node_cursor below(prev_below->v_next);
+	node_cursor above(prev_above->v_next);
+	node_cursor next_above(above->v_next);
+
+	if(prev_below != above && prev_above != below)
+	{
+		join_hor_list(prev_above, below);
+		join_hor_list(prev_below, above);
+		join_hor_list(above, node_cursor(below->v_next));
+		join_hor_list(below, next_above);
+	}
+	else
+	{
+		join_hor_list(below, next_above);
+		join_hor_list(above, below);
+		join_hor_list(prev_below, above);
+	}
+}
+
+template <typename T>
 typename forked_linked_list<T>::node_cursor
 forked_linked_list<T>::build(size_t width, size_t height, const T &def_val)
 {
@@ -441,6 +497,11 @@ forked_linked_list<T>::join_ver_list(node_cursor left, node_cursor right)
 		return std::move(left);
 	}
 
+	if(left == right)
+	{
+		return join_ver_list(left, node_cursor(nullptr));
+	}
+
 	auto l_cursor = left;
 	for(; left != null_cursor_; left.forward_ver(), right.forward_ver())
 	{
@@ -457,6 +518,11 @@ forked_linked_list<T>::join_hor_list(node_cursor below, node_cursor above)
 	if(below == null_cursor_)
 	{
 		return std::move(below);
+	}
+
+	if(below == above)
+	{
+		return join_hor_list(below, node_cursor(nullptr));
 	}
 
 	auto b_cursor = below;

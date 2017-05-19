@@ -64,7 +64,7 @@ int main(int argc, char const *argv[])
 	list.insert_hor_list(++(list.vbegin()), 'F');
 	print_list(list);
 
-	// // pop back
+	// pop back
 	std::cout << "# pop_back_ver_list()" << '\n';
 	list.pop_back_ver_list();
 	print_list(list);
@@ -115,9 +115,60 @@ int main(int argc, char const *argv[])
 	list.resize(1, 5);
 	print_list(list);
 
-	// clear
 	std::cout << "# clear()" << '\n';
+	std::cout << "# list.push_front_ver_list('A')" << '\n';
+	std::cout << "# list.push_front_ver_list('B')" << '\n';
+	std::cout << "# list.push_front_ver_list('C')" << '\n';
+	std::cout << "# list.push_front_ver_list('D')" << '\n';
+	std::cout << "# list.push_front_ver_list('E')" << '\n';
+	std::cout << "# list.push_front_ver_list('F')" << '\n';
+
 	list.clear();
+	list.push_front_ver_list('A');
+	list.push_front_ver_list('B');
+	list.push_front_ver_list('C');
+	list.push_front_ver_list('D');
+	list.push_front_ver_list('E');
+	list.push_front_ver_list('F');
+
+	print_list(list);
+
+	std::cout << "# swap vertical lists!" << '\n';
+
+	std::cout << "swap E <=> B" << '\n';
+	list.swap_ver_list(list.hbegin(), list.hbegin().advance(3));
+	print_list(list);
+
+	std::cout << "swap D <=> A" << '\n';
+	list.swap_ver_list(list.hbegin().advance(1), list.hbegin().advance(4));
+	print_list(list);
+
+	std::cout << "# clear()" << '\n';
+	std::cout << "# list.push_front_hor_list('A')" << '\n';
+	std::cout << "# list.push_front_hor_list('B')" << '\n';
+	std::cout << "# list.push_front_hor_list('C')" << '\n';
+	std::cout << "# list.push_front_hor_list('D')" << '\n';
+	std::cout << "# list.push_front_hor_list('E')" << '\n';
+	std::cout << "# list.push_front_hor_list('F')" << '\n';
+
+	list.clear();
+	list.push_front_hor_list('A');
+	list.push_front_hor_list('B');
+	list.push_front_hor_list('C');
+	list.push_front_hor_list('D');
+	list.push_front_hor_list('E');
+	list.push_front_hor_list('F');
+
+	print_list(list);
+
+	std::cout << "# swap horizontal lists!" << '\n';
+
+	std::cout << "# swap_hor_list(list.vbegin().advance(1), list.vbegin().advance(2)) (swap D <=> C)" << '\n';
+	list.swap_hor_list(list.vbegin().advance(1), list.vbegin().advance(2));
+	print_list(list);
+
+	std::cout << "# swap_hor_list(list.vbegin().advance(2), list.vbegin().advance(4)) (swap D <=> A)" << '\n';
+	list.swap_hor_list(list.vbegin().advance(2), list.vbegin().advance(4));
 	print_list(list);
 
 	return 0;
