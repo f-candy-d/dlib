@@ -135,12 +135,20 @@ int main(int argc, char const *argv[])
 
 	std::cout << "# swap vertical lists!" << '\n';
 
-	std::cout << "swap E <=> B" << '\n';
+	std::cout << "# swap_ver_list(list.hbegin(), list.hbegin().advance(3)) (swap E <=> B)" << '\n';
 	list.swap_ver_list(list.hbegin(), list.hbegin().advance(3));
 	print_list(list);
 
-	std::cout << "swap D <=> A" << '\n';
+	std::cout << "# swap_ver_list(list.hbegin().advance(1), list.hbegin().advance(4)) (swap D <=> A)" << '\n';
 	list.swap_ver_list(list.hbegin().advance(1), list.hbegin().advance(4));
+	print_list(list);
+
+	std::cout << "# value_swap_ver_list(list.hbegin().advance(2), list.hbegin().advance(3)) (swap A <=> C)" << '\n';
+	list.value_swap_ver_list(list.hbegin().advance(2), list.hbegin().advance(3));
+	print_list(list);
+
+	std::cout << "# value_swap_ver_list(list.hbegin(), list.hbegin().advance(5)) (swap F <=> D)" << '\n';
+	list.value_swap_ver_list(list.hbegin(), list.hbegin().advance(5));
 	print_list(list);
 
 	std::cout << "# clear()" << '\n';
@@ -169,6 +177,14 @@ int main(int argc, char const *argv[])
 
 	std::cout << "# swap_hor_list(list.vbegin().advance(2), list.vbegin().advance(4)) (swap D <=> A)" << '\n';
 	list.swap_hor_list(list.vbegin().advance(2), list.vbegin().advance(4));
+	print_list(list);
+
+	std::cout << "# value_swap_hor_list(list.vbegin().advance(1), list.vbegin().advance(3)) (swap E <=> A)" << '\n';
+	list.value_swap_hor_list(list.vbegin().advance(1), list.vbegin().advance(3));
+	print_list(list);
+
+	std::cout << "# value_swap_hor_list(list.vbegin(), list.vbegin().advance(5)) (swap F <=> D)" << '\n';
+	list.value_swap_hor_list(list.vbegin(), list.vbegin().advance(5));
 	print_list(list);
 
 	return 0;

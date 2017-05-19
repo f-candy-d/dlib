@@ -410,6 +410,32 @@ void forked_linked_list<T>::swap_hor_list(v_iterator prev_below_itr, v_iterator 
 }
 
 template <typename T>
+void forked_linked_list<T>::value_swap_ver_list(vh_iterator tom, vh_iterator jerry)
+{
+	T cheese;
+
+	for(; tom != vhend() && jerry != vhend(); tom.forward_ver(), jerry.forward_ver())
+	{
+		cheese = *tom;
+		*tom = *jerry;
+		*jerry = std::move(cheese);
+	}
+}
+
+template <typename T>
+void forked_linked_list<T>::value_swap_hor_list(vh_iterator tom, vh_iterator jerry)
+{
+	T cheese;
+
+	for(; tom != vend() && jerry != vend(); tom.forward_hor(), jerry.forward_hor())
+	{
+		cheese = *tom;
+		*tom = *jerry;
+		*jerry = std::move(cheese);
+	}
+}
+
+template <typename T>
 typename forked_linked_list<T>::node_cursor
 forked_linked_list<T>::build(size_t width, size_t height, const T &def_val)
 {
