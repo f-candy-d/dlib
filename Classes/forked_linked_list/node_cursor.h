@@ -30,6 +30,8 @@ public:
 	h_iterator<T> to_h_iterator() { return std::move(h_iterator<T>(np)); }
 	node_cursor& forward_ver() { np = (np != nullptr) ? np->v_next : nullptr; return *this; }
 	node_cursor& forward_hor() { np = (np != nullptr) ? np->h_next : nullptr; return *this; }
+	node_cursor v_next_cursor() { return std::move(node_cursor((np != nullptr) ? np->v_next : nullptr)); }
+	node_cursor h_next_cursor() { return std::move(node_cursor((np != nullptr) ? np->h_next : nullptr)); }
 	bool operator==(const node_cursor& other) { return (np == other.np); }
 	bool operator!=(const node_cursor& other) { return !(*this == other); }
 

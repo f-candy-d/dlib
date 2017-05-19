@@ -44,14 +44,12 @@ public:
 	void clear();
 	void resize(size_t width, size_t height);
 	void resize(size_t width, size_t height, const T& def_val);
-	void swap_ver_list(h_iterator prev_left_itr, h_iterator prev_right_itr);
-	void swap_hor_list(v_iterator prev_below_itr, v_iterator prev_above_itr);
+	void swap_ver_list(h_iterator prev_tom_itr, h_iterator prev_jerry_itr);
+	void swap_hor_list(v_iterator prev_tom_itr, v_iterator prev_jerry_itr);
 	void swap_with_front_ver_list(h_iterator prev_itr);
 	void swap_with_front_hor_list(v_iterator prev_itr);
 	void value_swap_ver_list(vh_iterator tom, vh_iterator jerry);
 	void value_swap_hor_list(vh_iterator tom, vh_iterator jerry);
-	// void to_front_ver_list(h_iterator prev_itr);
-	// void to_front_hor_list(v_iterator prev_itr);
 	void shift_vertically(int delta);
 	void shift_horizontally(int delta);
 
@@ -101,8 +99,8 @@ private:
 	void set_size(size_t width, size_t height);
 	node_cursor join_ver_list(node_cursor left, node_cursor right);
 	node_cursor join_hor_list(node_cursor below, node_cursor above);
-	void scrap_ver_list(node_cursor head);
-	void scrap_hor_list(node_cursor head);
+	void scrap_ver_list(node_cursor& head);
+	void scrap_hor_list(node_cursor& head);
 	void on_size_zero();
 	void reset_tails();
 	void reset_tail_ver();
