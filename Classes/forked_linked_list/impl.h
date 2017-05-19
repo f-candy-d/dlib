@@ -359,7 +359,8 @@ void forked_linked_list<T>::swap_ver_list(h_iterator prev_left_itr, h_iterator p
 	node_cursor prev_left(prev_left_itr);
 	node_cursor prev_right(prev_right_itr);
 
-	if(prev_left == null_cursor_ || prev_right == null_cursor_)
+	if(prev_left == null_cursor_ || prev_right == null_cursor_ ||
+		prev_left == tail_hor_ || prev_right == tail_hor_)
 		return;
 
 	node_cursor left(prev_left->h_next);
@@ -379,6 +380,8 @@ void forked_linked_list<T>::swap_ver_list(h_iterator prev_left_itr, h_iterator p
 		join_ver_list(right, left);
 		join_ver_list(prev_left, right);
 	}
+
+	reset_tails();
 }
 
 template <typename T>
@@ -387,7 +390,8 @@ void forked_linked_list<T>::swap_hor_list(v_iterator prev_below_itr, v_iterator 
 	node_cursor prev_below(prev_below_itr);
 	node_cursor prev_above(prev_above_itr);
 
-	if(prev_below == null_cursor_ || prev_above == null_cursor_)
+	if(prev_below == null_cursor_ || prev_above == null_cursor_ ||
+		prev_below == tail_ver_ || prev_above == tail_ver_)
 		return;
 
 	node_cursor below(prev_below->v_next);
@@ -407,6 +411,48 @@ void forked_linked_list<T>::swap_hor_list(v_iterator prev_below_itr, v_iterator 
 		join_hor_list(above, below);
 		join_hor_list(prev_below, above);
 	}
+
+	reset_tails();
+}
+
+template <typename T>
+void forked_linked_list<T>::swap_with_front_ver_list(h_iterator prev_itr)
+{
+	node_cursor prev(prev_itr);
+
+	if(prev == null_cursor_ || prev == tail_hor_)
+	{
+		return;
+	}
+
+	node_cursor cursor(prev->h_next);
+	node_cursor next(cursor->h_next);
+	node_cursor old_head(head_);
+	head_ = join_ver_list(cursor, node_cursor(head_->h_next));
+	join_ver_list(prev, old_head);
+	join_ver_list(old_head, next);
+
+	reset_tails();
+}
+
+template <typename T>
+void forked_linked_list<T>::swap_with_front_hor_list(v_iterator prev_itr)
+{
+	node_cursor prev(prev_itr);
+
+	if(prev == null_cursor_ || prev == tail_ver_)
+	{
+		return;
+	}
+
+	node_cursor cursor(prev->v_next);
+	node_cursor next(cursor->v_next);
+	node_cursor old_head(head_);
+	head_ = join_hor_list(cursor, node_cursor(head_->v_next));
+	join_hor_list(prev, old_head);
+	join_hor_list(old_head, next);
+
+	reset_tails();
 }
 
 template <typename T>
@@ -434,6 +480,40 @@ void forked_linked_list<T>::value_swap_hor_list(vh_iterator tom, vh_iterator jer
 		*jerry = std::move(cheese);
 	}
 }
+
+// template <typename T>
+// void forked_linked_list<T>::to_front_ver_list(h_iterator prev_itr)
+// {
+// 	node_cursor prev(prev_itr);
+//
+// 	if(prev == null_cursor_ || prev == tail_hor_)
+// 	{
+// 		return;
+// 	}
+//
+// 	node_cursor cursor(prev->h_next);
+// 	join_ver_list(prev, node_cursor(cursor->h_next));
+// 	head_ = join_ver_list(cursor, head_);
+//
+// 	reset_tails();
+// }
+//
+// template <typename T>
+// void forked_linked_list<T>::to_front_hor_list(v_iterator prev_itr)
+// {
+// 	node_cursor prev(prev_itr);
+//
+// 	if(prev == null_cursor_ || prev == tail_ver_)
+// 	{
+// 		return;
+// 	}
+//
+// 	node_cursor cursor(prev->v_next);
+// 	join_hor_list(prev, node_cursor(cursor->v_next));
+// 	head_ = join_hor_list(cursor, head_);
+//
+// 	reset_tails();
+// }
 
 template <typename T>
 typename forked_linked_list<T>::node_cursor

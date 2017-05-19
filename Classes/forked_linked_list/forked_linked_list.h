@@ -46,8 +46,14 @@ public:
 	void resize(size_t width, size_t height, const T& def_val);
 	void swap_ver_list(h_iterator prev_left_itr, h_iterator prev_right_itr);
 	void swap_hor_list(v_iterator prev_below_itr, v_iterator prev_above_itr);
+	void swap_with_front_ver_list(h_iterator prev_itr);
+	void swap_with_front_hor_list(v_iterator prev_itr);
 	void value_swap_ver_list(vh_iterator tom, vh_iterator jerry);
 	void value_swap_hor_list(vh_iterator tom, vh_iterator jerry);
+	// void to_front_ver_list(h_iterator prev_itr);
+	// void to_front_hor_list(v_iterator prev_itr);
+	void shift_vertically(int delta);
+	void shift_horizontally(int delta);
 
 	// inline methods
 	size_t size() const { return width_ * height_; }
