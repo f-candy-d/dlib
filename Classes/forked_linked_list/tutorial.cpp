@@ -5,7 +5,7 @@
 template <typename T>
 void print_list(dlib::forked_linked_list<T>& list)
 {
-	std::cout << '\n' << "[ list log ]" << '\n';
+	std::cout << '\n' << "[ forked-linked-list log  | size = " << list.size() << " (" << list.width() << "x" << list.height() << ") | capacity = " << list.capaicty() << " (" << list.capacity_width() << "x" << list.capacity_height() << ") ]" << '\n';
 	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_ver())
 	{
 		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
@@ -14,9 +14,6 @@ void print_list(dlib::forked_linked_list<T>& list)
 		}
 		std::cout << '\n';
 	}
-
-	std::cout << "# size = " << list.size() << " (" << list.width() << "x" << list.height() << ") | capacity = " << list.capaicty() << " (" << list.capacity_width() << "x" << list.capacity_height() << ")" << '\n';
-
 	std::cout << '\n';
 }
 
@@ -24,12 +21,14 @@ int main(int argc, char const *argv[])
 {
 	std::cout << "[ forked-linked-list tutorial ]" << "\n\n";
 
-	dlib::forked_linked_list<int> list(5, 5, 5);
+	dlib::forked_linked_list<char> list(5, 5, 'D');
 
-	std::cout << "# list => dlib::forked_linked_list<int> list(5, 5, 5);" << '\n';
-	print_list<int>(list);
+	std::cout << "# list => dlib::forked_linked_list<char> list(5, 5, 'D')" << '\n';
+	print_list<char>(list);
 
-	int c = 10;
+	std::cout << "# change values..." << '\n';
+
+	char c = 'a';
 	for(auto v_itr = list.vhbegin(); v_itr != list.vhend(); v_itr.forward_ver())
 	{
 		for(auto h_itr = v_itr; h_itr != list.vhend(); h_itr.forward_hor())
@@ -42,46 +41,50 @@ int main(int argc, char const *argv[])
 	print_list(list);
 
 	// push back
-	std::cout << "# push_back_ver_list(22)" << '\n';
-	std::cout << "# push_back_hor_list(33)" << '\n';
-	list.push_back_ver_list(22);
-	list.push_back_hor_list(33);
+	std::cout << "# push_back_ver_list('A')" << '\n';
+	list.push_back_ver_list('A');
+	print_list(list);
+	std::cout << "# push_back_hor_list('B')" << '\n';
+	list.push_back_hor_list('B');
 	print_list(list);
 
 	// push front
-	std::cout << "# push_front_ver_list(44)" << '\n';
-	std::cout << "# push_front_hor_list(55)" << '\n';
-	list.push_front_ver_list(44);
-	list.push_front_hor_list(55);
+	std::cout << "# push_front_ver_list('C')" << '\n';
+	list.push_front_ver_list('C');
+	print_list(list);
+	std::cout << "# push_front_hor_list('D')" << '\n';
+	list.push_front_hor_list('D');
 	print_list(list);
 
 	// insert
-	std::cout << "# insert_ver_list(++(list.hbegin()), 66)" << '\n';
-	std::cout << "# insert_hor_list(++(list.vbegin()), 77)" << '\n';
-	list.insert_ver_list(++(list.hbegin()), 66);
-	list.insert_hor_list(++(list.vbegin()), 77);
+	std::cout << "# insert_ver_list(++(list.hbegin()), 'E')" << '\n';
+	list.insert_ver_list(++(list.hbegin()), 'E');
+	print_list(list);
+	std::cout << "# insert_hor_list(++(list.vbegin()), 'F')" << '\n';
+	list.insert_hor_list(++(list.vbegin()), 'F');
 	print_list(list);
 
 	// // pop back
 	std::cout << "# pop_back_ver_list()" << '\n';
-	std::cout << "# pop_back_hor_list() x2" << '\n';
 	list.pop_back_ver_list();
-	list.pop_back_hor_list();
+	print_list(list);
+	std::cout << "# pop_back_hor_list()" << '\n';
 	list.pop_back_hor_list();
 	print_list(list);
 
 	// pop front
-	std::cout << "# pop_front_ver_list() x2" << '\n';
+	std::cout << "# pop_front_ver_list()" << '\n';
+	list.pop_front_ver_list();
+	print_list(list);
 	std::cout << "# pop_front_hor_list()" << '\n';
-	list.pop_front_ver_list();
-	list.pop_front_ver_list();
 	list.pop_front_hor_list();
 	print_list(list);
 
 	// erase
 	std::cout << "# erase_ver_list(++list.hbegin())" << '\n';
-	std::cout << "# erase_hor_list(++list.vbegin())" << '\n';
 	list.erase_ver_list(++list.hbegin());
+	print_list(list);
+	std::cout << "# erase_hor_list(++list.vbegin())" << '\n';
 	list.erase_hor_list(++list.vbegin());
 	print_list(list);
 
@@ -90,98 +93,32 @@ int main(int argc, char const *argv[])
 	list.clear();
 	print_list(list);
 
-	// push back
-	std::cout << "# push_back_ver_list(22)" << '\n';
-	std::cout << "# push_back_hor_list(33)" << '\n';
-	std::cout << "# push_back_ver_list(88)" << '\n';
-	std::cout << "# push_back_hor_list(99)" << '\n';
-	list.push_back_ver_list(22);
-	list.push_back_hor_list(33);
-	list.push_back_ver_list(88);
-	list.push_back_hor_list(99);
+	// push back again
+	std::cout << "# push_back_ver_list('G')" << '\n';
+	list.push_back_ver_list('G');
 	print_list(list);
 
-	// push front
-	std::cout << "# push_front_ver_list(44)" << '\n';
-	std::cout << "# push_front_hor_list(55)" << '\n';
-	list.push_front_ver_list(44);
-	list.push_front_hor_list(55);
+	// push front again
+	std::cout << "# push_front_ver_list('H')" << '\n';
+	std::cout << "# push_front_hor_list('I')" << '\n';
+	list.push_front_ver_list('H');
+	list.push_front_hor_list('I');
 	print_list(list);
 
-	// insert
-	std::cout << "# insert_ver_list(++(list.hbegin()), 66)" << '\n';
-	std::cout << "# insert_hor_list(++(list.vbegin()), 77)" << '\n';
-	list.insert_ver_list(++(list.hbegin()), 66);
-	list.insert_hor_list(++(list.vbegin()), 77);
+	// resize( to bigger size)
+	std::cout << "# resize(10, 15, n)" << '\n';
+	list.resize(10, 15, 'n');
 	print_list(list);
 
-	std::cout << "# resize(10, 15, 99)" << '\n';
-	list.resize(10, 15, 99);
+	// resize( to smaller size)
+	std::cout << "# resize(1, 5)" << '\n';
+	list.resize(1, 5);
 	print_list(list);
 
 	// clear
 	std::cout << "# clear()" << '\n';
 	list.clear();
 	print_list(list);
-
-	/**
-	 * list2
-	 */
-	dlib::forked_linked_list<int> list2;
-	std::cout << "# list2 => dlib::forked_linked_list<int> list2;" << '\n';
-	print_list(list2);
-
-	// push back
-	std::cout << "# push_back_ver_list(22)" << '\n';
-	std::cout << "# push_back_hor_list(33)" << '\n';
-	list2.push_back_ver_list(22);
-	list2.push_back_hor_list(33);
-
-	// push front
-	std::cout << "# push_front_ver_list(44)" << '\n';
-	std::cout << "# push_front_hor_list(55)" << '\n';
-	list2.push_front_ver_list(44);
-	list2.push_front_hor_list(55);
-
-	// insert
-	std::cout << "# insert_ver_list(++(list2.hbegin()), 66)" << '\n';
-	std::cout << "# insert_hor_list(++(list2.vbegin()), 77)" << '\n';
-	list2.insert_ver_list(++(list2.hbegin()), 66);
-	list2.insert_hor_list(++(list2.vbegin()), 77);
-
-	// // pop back
-	std::cout << "# pop_back_ver_list()" << '\n';
-	std::cout << "# pop_back_hor_list() x2" << '\n';
-	list2.pop_back_ver_list();
-	list2.pop_back_hor_list();
-	list2.pop_back_hor_list();
-
-	// pop front
-	std::cout << "# pop_front_ver_list() x2" << '\n';
-	std::cout << "# pop_front_hor_list()" << '\n';
-	list2.pop_front_ver_list();
-	list2.pop_front_ver_list();
-	list2.pop_front_hor_list();
-
-	// erase
-	std::cout << "# erase_ver_list(++list.hbegin())" << '\n';
-	std::cout << "# erase_hor_list(++list.vbegin())" << '\n';
-	list2.erase_ver_list(++list2.hbegin());
-	list2.erase_hor_list(++list2.vbegin());
-
-	// clear
-	list2.clear();
-
-	print_list(list2);
-
-	std::cout << "# resize(10, 15, 99)" << '\n';
-	list2.resize(10, 15, 99);
-	print_list(list2);
-
-	// clear
-	std::cout << "# clear()" << '\n';
-	list2.clear();
-	print_list(list2);
 
 	return 0;
 }
