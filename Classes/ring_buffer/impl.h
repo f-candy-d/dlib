@@ -34,7 +34,7 @@ template <typename T>
 ring_buffer<T>::ring_buffer(size_type size, T def_value)
 :ring_buffer()
 {
-	change_capacity(size, def_value);
+	expand_capacity(size, def_value);
 }
 
 template <typename T>
@@ -42,7 +42,7 @@ ring_buffer<T>::ring_buffer(size_type size, size_type cap_request, T def_value)
 :ring_buffer()
 {
 	assert(size <= cap_request);
-	change_capacity(cap_request, def_value);
+	expand_capacity(cap_request, def_value);
 }
 
 template <typename T>
@@ -297,6 +297,11 @@ const
 template <typename T>
 typename ring_buffer<T>::size_type ring_buffer<T>::confirm_capacity(size_type cap_request)
 {
+	if(cap_request == 0)
+	{
+		return 0;
+	}
+
 	size_type capacity = 0;
 	cap_request += kNumDummyMemory;
 	// NOTE -> gross_capacity_ must always be 2^n !!
