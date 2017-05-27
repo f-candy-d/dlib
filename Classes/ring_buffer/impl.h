@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include <utility>
+#include <algorithm>
 #include "ring_buffer.h"
 
 namespace dlib
@@ -50,12 +51,17 @@ ring_buffer<T>::ring_buffer(const ring_buffer& other)
 {
 	if(other.data_ != nullptr)
 	{
-		data_ = new T[other.gross_capacity_];
-		// data_ = allocator_.allocate(other.capacity());
-		for(index_type i = 0; i < other.gross_capacity_; ++i)
-		{
-			data_[i] = other.data_[i];
-		}
+		// data_ = new T[other.gross_capacity_];
+		data_ = allocator_.allocate(other.gross_capacity_);
+		// for(index_type i = 0; i < other.gross_capacity_; ++i)
+		// {
+		// 	data_[i] = other.data_[i];
+		// }
+		std::uninitialized_copy(other.begin_strage(), other.end_strage(), data_);
+	}
+	else
+	{
+		data_ = nullptr;
 	}
 
 	front_ = other.front_;
@@ -69,11 +75,17 @@ ring_buffer<T>& ring_buffer<T>::operator=(const ring_buffer<T> &other)
 {
 	if(other.data_ != nullptr)
 	{
-		data_ = new T[other.gross_capacity_];
-		for(index_type i = 0; i < other.gross_capacity_; ++i)
-		{
-			data_[i] = other.data_[i];
-		}
+		// data_ = new T[other.gross_capacity_];
+		data_ = allocator_.allocate(other.gross_capacity_);
+		// for(index_type i = 0; i < other.gross_capacity_; ++i)
+		// {
+		// 	data_[i] = other.data_[i];
+		// }
+		std::uninitialized_copy(other.begin_strage(), other.end_strage(), data_);
+	}
+	else
+	{
+		data_ = nullptr;
 	}
 
 	front_ = other.front_;
@@ -103,11 +115,13 @@ void ring_buffer<T>::expand_capacity(size_type cap_request, T def_value)
 	auto capacity = confirm_capacity(cap_request);
 	if(gross_capacity_ < capacity)
 	{
-		T* data = new T[capacity];
-		for(index_type i = 0; i < size_; ++i)
-		{
-			data[i] = (*this)[i];
-		}
+		// T* data = new T[capacity];
+		// for(index_type i = 0; i < size_; ++i)
+		// {
+		// 	data[i] = (*this)[i];
+		// }
+		T* data = allocator_.allocate(capacity);
+		std::uninitialized_copy_n(begin(), size_, data);
 
 		gross_capacity_ = capacity;
 		front_ = 0;
@@ -124,6 +138,7 @@ void ring_buffer<T>::expand_capacity(size_type cap_request, T def_value)
 template <typename T>
 void ring_buffer<T>::shrink_capacity(size_type cap_request, T def_value)
 {
+	// this is gross-capacity
 	auto capacity = confirm_capacity(cap_request);
 
 	if(capacity < kNumDummyMemory)
@@ -132,11 +147,13 @@ void ring_buffer<T>::shrink_capacity(size_type cap_request, T def_value)
 	}
 	else if(capacity < gross_capacity_)
 	{
-		T* data = new T[capacity];
-		for(index_type i = 0; i < capacity; ++i)
-		{
-			data[i] = (*this)[i];
-		}
+		// T* data = new T[capacity];
+		// for(index_type i = 0; i < capacity; ++i)
+		// {
+		// 	data[i] = (*this)[i];
+		// }
+		T* data = allocator_.allocate(capacity);
+		std::uninitialized_copy_n(begin(), capacity - kNumDummyMemory, data);
 
 		gross_capacity_ = capacity;
 		size_ = capacity - kNumDummyMemory;
