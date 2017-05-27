@@ -3,6 +3,9 @@
  * The implementation file of forked_linked_list class. May/19/2017
  *
  **********************************************************************************/
+#ifndef DLIB_CLASSES_FORKED_LINKED_LIST_IMPL_H
+#define DLIB_CLASSES_FORKED_LINKED_LIST_IMPL_H
+
 #include "forked_linked_list.h"
 #include <cassert>
 
@@ -664,3 +667,5 @@ void forked_linked_list<T>::reset_tail_hor()
 }
 
 } /* namespace dlib */
+
+#endif
