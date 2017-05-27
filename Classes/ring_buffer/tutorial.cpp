@@ -63,6 +63,11 @@ int main(int argc, char const *argv[])
 		std::cout << std::setfill('_') << std::setw(3) << *itr << "|";
 	std::cout << "\n-------------------------------------------------" << '\n';
 
+	dlib::ring_buffer<int> buffer2(buffer);
+	dlib::ring_buffer<int> buffer3;
+
+	buffer3 = buffer2;
+
 	buffer.pop_back();
 	buffer.pop_back();
 	buffer.pop_front();
@@ -84,6 +89,12 @@ int main(int argc, char const *argv[])
 	log_buffer(buffer);
 	std::cout << "front => " << buffer.front() << '\n';
 	std::cout << "back => " << buffer.back() << '\n';
+	//
+
+	std::cout << "/* message */" << '\n';
+	log_buffer(buffer2);
+	std::cout << "/* message */" << '\n';
+	log_buffer(buffer3);
 
 	return 0;
 }

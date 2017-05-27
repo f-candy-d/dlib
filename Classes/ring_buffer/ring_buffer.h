@@ -23,6 +23,8 @@ public:
 	ring_buffer();
 	ring_buffer(size_type size, T def_value = T());
 	ring_buffer(size_type size, size_type cap_request, T def_value);
+	ring_buffer(const ring_buffer& other);
+	ring_buffer& operator=(const ring_buffer& other);
 	void change_capacity(size_type cap_request, T def_value = T());
 	void expand_capacity(size_type cap_request, T def_value = T());
 	void shrink_capacity(size_type cap_request, T def_value = T());

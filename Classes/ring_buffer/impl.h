@@ -44,6 +44,44 @@ ring_buffer<T>::ring_buffer(size_type size, size_type cap_request, T def_value)
 }
 
 template <typename T>
+ring_buffer<T>::ring_buffer(const ring_buffer& other)
+{
+	if(other.data_ != nullptr)
+	{
+		data_ = new T[other.capacity()];
+		for(index_type i = 0; i < other.capacity(); ++i)
+		{
+			data_[i] = other.data_[i];
+		}
+	}
+
+	front_ = other.front_;
+	back_ = other.back_;
+	size_ = other.size_;
+	capacity_ = other.capacity_;
+}
+
+template <typename T>
+ring_buffer<T>& ring_buffer<T>::operator=(const ring_buffer<T> &other)
+{
+	if(other.data_ != nullptr)
+	{
+		data_ = new T[other.capacity()];
+		for(index_type i = 0; i < other.capacity(); ++i)
+		{
+			data_[i] = other.data_[i];
+		}
+	}
+
+	front_ = other.front_;
+	back_ = other.back_;
+	size_ = other.size_;
+	capacity_ = other.capacity_;
+
+	return *this;
+}
+
+template <typename T>
 void ring_buffer<T>::change_capacity(size_type cap_request, T def_value)
 {
 	if(capacity_ < cap_request)
