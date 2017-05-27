@@ -66,5 +66,15 @@ int main(int argc, char const *argv[])
 	std::cout << "front => " << buffer.front() << '\n';
 	std::cout << "back => " << buffer.back() << '\n';
 
+	buffer.clear();
+	log_buffer(buffer);
+	std::cout << "front => " << buffer.front() << '\n';
+	std::cout << "back => " << buffer.back() << '\n';
+
+	buffer.free_memory();
+	log_buffer(buffer);
+	std::cout << "front => " << buffer.front() << '\n';
+	std::cout << "back => " << buffer.back() << '\n';
+
 	return 0;
 }

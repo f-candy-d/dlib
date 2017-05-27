@@ -87,16 +87,7 @@ void ring_buffer<T>::shrink_capacity(size_type cap_request, T def_value)
 
 	if(capacity == 0)
 	{
-		if(data_ != nullptr)
-		{
-			delete [] data_;
-			data_ = nullptr;
-		}
-
-		capacity_ = 0;
-		size_ = 0;
-		front_ = 0;
-		back_ = 0;
+		free_memory();
 	}
 	else if(capacity < capacity_)
 	{
@@ -210,6 +201,29 @@ const
 	assert(data_ != nullptr);
 	// NOTE -> (*this)[0] is always returns a reference to the front element in ring_buffer.
 	return *(data_ + normalize_index(front_ + index));
+}
+
+template <typename T>
+void ring_buffer<T>::clear()
+{
+	// clear() does not free memory
+	size_ = 0;
+	front_ = 0;
+	back_ = 0;
+}
+
+template <typename T>
+void ring_buffer<T>::free_memory()
+{
+	// deallocate memory and reset parameters
+	if(data_ != nullptr)
+	{
+		delete [] data_;
+		data_ = nullptr;
+	}
+
+	capacity_ = 0;
+	clear();
 }
 
 template <typename T>

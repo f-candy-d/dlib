@@ -29,8 +29,10 @@ public:
 	T pop_front();
 	T& operator[](index_type index);
 	const T& operator[](index_type index) const;
-	T front() const { return (data_ != nullptr) ? data_[front_] : T(); }
-	T back() const { return (data_ != nullptr) ? data_[back_] : T(); }
+	T front() const { return (size_ != 0) ? data_[front_] : T(); }
+	T back() const { return (size_ != 0) ? data_[back_] : T(); }
+	void clear();
+	void free_memory();
 
 	size_type size() const { return size_; }
 	size_type capacity() const { return capacity_; }
