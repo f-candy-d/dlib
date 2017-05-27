@@ -38,9 +38,9 @@ public:
 	T back() const { return (size_ != 0) ? data_[back_] : T(); }
 	void clear();
 	void free_memory();
+	size_type capacity() const;
 
 	size_type size() const { return size_; }
-	size_type capacity() const { return capacity_; }
 	const T* data() const { return data_; }
 
 	// iterators
@@ -50,13 +50,21 @@ public:
 	iterator end() { return std::move(iterator(this, size_)); }
 	const_iterator end() const { return std::move(const_iterator(this, size_)); }
 	const_iterator cend() const { return std::move(end()); }
+	iterator begin_strage() { return std::move(iterator(this, gross_capacity_ - front_)); }
+	const_iterator begin_strage() const { return std::move(const_iterator(this, gross_capacity_ - front_)); }
+	const_iterator cbegin_strage() const { return std::move(begin()); }
+	iterator end_strage() { return std::move(iterator(this, 2 * gross_capacity_ - front_)); }
+	const_iterator end_strage() const { return std::move(const_iterator(this, 2 * gross_capacity_ - front_)); }
+	const_iterator cend_strage() const { return std::move(end()); }
 
-private:
+// private:
 	index_type front_;
 	index_type back_;
 	size_type size_;
-	size_type capacity_;
+	// net-capacity + the number of dummy memory
+	size_type gross_capacity_;
 	T* data_;
+	std::allocator<T> allocator_;
 
 	index_type normalize_index(index_type index) const;
 	size_type confirm_capacity(size_type cap_request);
