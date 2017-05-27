@@ -7,6 +7,7 @@
 #define DLIB_CLASSES_RING_BUFFER_RING_BUFFER_H
 
 #include <cstdlib>
+#include "iterators.h"
 
 namespace dlib
 {
@@ -15,6 +16,7 @@ template <typename T> class ring_buffer
 {
 	using index_type = size_t;
 	using size_type = size_t;
+	using const_iterator = ring_buffer_bits::const_iterator<T>;
 
 public:
 	ring_buffer();
@@ -37,6 +39,12 @@ public:
 	size_type size() const { return size_; }
 	size_type capacity() const { return capacity_; }
 	const T* data() const { return data_; }
+
+	// iterators
+	const_iterator begin() const { return std::move(const_iterator(this, 0)); }
+	const_iterator cbegin() const { return std::move(begin()); }
+	const_iterator end() const { return std::move(const_iterator(this, size_)); }
+	const_iterator cend() const { return std::move(end()); }
 
 private:
 	index_type front_;

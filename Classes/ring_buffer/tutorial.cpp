@@ -54,6 +54,15 @@ int main(int argc, char const *argv[])
 	std::cout << "front => " << buffer.front() << '\n';
 	std::cout << "back => " << buffer.back() << '\n';
 
+	std::cout << "iteraotr!!!!!" << '\n';
+	std::cout << "indx => ";
+	for(size_t i = 0; i < buffer.size(); ++i)
+		std::cout << std::setfill('_') << std::setw(3) << i << "|";
+	std::cout << "\ndata => ";
+	for(auto itr = buffer.begin(); itr != buffer.end(); ++itr)
+		std::cout << std::setfill('_') << std::setw(3) << *itr << "|";
+	std::cout << "\n-------------------------------------------------" << '\n';
+
 	buffer.pop_back();
 	buffer.pop_back();
 	buffer.pop_front();

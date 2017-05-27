@@ -230,8 +230,15 @@ template <typename T>
 typename ring_buffer<T>::index_type ring_buffer<T>::normalize_index(index_type index)
 const
 {
-	// NOTE -> capacity_ must always be 2^n !!
-	return index & (capacity_ - 1);
+	if(capacity_ == 0)
+	{
+		return 0;
+	}
+	else
+	{
+		// NOTE -> capacity_ must always be 2^n !!
+		return index & (capacity_ - 1);
+	}
 }
 
 template <typename T>
