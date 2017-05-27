@@ -57,7 +57,7 @@ public:
 	const_iterator end_strage() const { return std::move(const_iterator(this, 2 * gross_capacity_ - front_)); }
 	const_iterator cend_strage() const { return std::move(end()); }
 
-// private:
+private:
 	index_type front_;
 	index_type back_;
 	size_type size_;

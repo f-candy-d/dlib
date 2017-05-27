@@ -10,7 +10,7 @@ void log_buffer(const dlib::ring_buffer<T> buffer)
 	std::cout << "size() = " << buffer.size() << '\n';
 	std::cout << "capacity() = " << buffer.capacity() << '\n';
 	std::cout << "indx => ";
-	for(size_t i = 0; i < buffer.gross_capacity_; ++i)
+	for(size_t i = 0; i < buffer.capacity() + 1; ++i)
 	{
 			std::cout << std::setfill('_') << std::setw(3) << i << "|";
 	}
