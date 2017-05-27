@@ -16,6 +16,7 @@ template <typename T> class ring_buffer
 {
 	using index_type = size_t;
 	using size_type = size_t;
+	using iterator = ring_buffer_bits::iterator<T>;
 	using const_iterator = ring_buffer_bits::const_iterator<T>;
 
 public:
@@ -41,8 +42,10 @@ public:
 	const T* data() const { return data_; }
 
 	// iterators
+	iterator begin() { return std::move(iterator(this, 0)); }
 	const_iterator begin() const { return std::move(const_iterator(this, 0)); }
 	const_iterator cbegin() const { return std::move(begin()); }
+	iterator end() { return std::move(iterator(this, size_)); }
 	const_iterator end() const { return std::move(const_iterator(this, size_)); }
 	const_iterator cend() const { return std::move(end()); }
 

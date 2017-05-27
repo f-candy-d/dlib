@@ -38,8 +38,8 @@ template <typename T> struct iterator : public const_iterator<T>
 {
 	iterator(const ring_buffer<T>* p) :const_iterator<T>(p) {}
 	iterator(const ring_buffer<T>* p, size_t i) :const_iterator<T>(p, i) {}
-	T& operator*() { return static_cast<T&>(const_iterator<T&>::operator*()); }
-	T* operator->() { return static_cast<T*>(const_iterator<T*>::operator->()); }
+	T& operator*() { return const_cast<T&>(const_iterator<T>::operator*()); }
+	T* operator->() { return &**this; }
 	iterator& operator++() { const_iterator<T>::operator++(); return *this; }
 	iterator& operator++(int) { auto old = *this; ++*this; return std::move(old); }
 };
