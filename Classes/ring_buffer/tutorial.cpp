@@ -85,5 +85,30 @@ int main(int argc, char const *argv[])
 	std::cout << "copied buffer..." << '\n';
 	log_buffer<int>(buffer2);
 
+	dlib::ring_buffer<int> buffer(); // <- default, size() and capacity() is 0
+	dlib::ring_buffer<int> buffer2(10, 6); // <- size() is 10, capacity() is 15
+	dlib::ring_buffer<int> buffer3(10, 16, 6); // <- size() is 10, capacity() is 31
+	dlib::ring_buffer<int> buffer4(buffer); // <- copy constructor
+
+	buffer2.push_front(10); // <- append '10' to the front of the buffer
+	buffer2.push_back(10); // <- append '10' to the back of the buffer
+
+	int x = buffer2.front(); // <- get the first element of the buffer
+	int y = buffer2[0]; // <- this is same as 'buffer.front()'
+
+	buffer2.pop_front(); // <- remove the first element of the buffer
+	buffer2.pop_back(); // <- remove the last element of the buffer
+
+	buffer2.expand_capacity(buffer.capacity() * 2); // <- size() is 10, capacity() is 31
+	buffer2.shrink_capacity(5); // <- size() is 7, capacity() is 7
+
+	buffer2.clear(); // <- size() is 0, capacity() is 7
+
+	// navigate through a ring-buffer from front to back using iterators
+	for(auto itr = buffer2.begin(); itr != buffer2.end(); ++itr)
+	{
+		std::cout << "data -> " << *itr << '\n';
+	}
+
 	return 0;
 }

@@ -1,0 +1,358 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>dlib::ring_buffer</title>
+
+</head>
+<body>
+<p><strong>class template</strong></p>
+
+<h1>dlib::ring_buffer</h1>
+
+<div class="mxgraph" style="max-width:100%;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;lightbox&quot;:false,&quot;nav&quot;:true,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile userAgent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\&quot; version=\&quot;6.6.5\&quot; editor=\&quot;www.draw.io\&quot; type=\&quot;github\&quot;&gt;&lt;diagram name=\&quot;Page-1\&quot;&gt;1ZfLjpswFIafhu0I7BDCsslcuuhIlVh0WRljwBrDQcaZkD59DZgEAlEiBaoOiwT/xze+/9gGC++y6k2SIn2HiAkL2VFl4WcLoc3a07+1cGwFz3NaIZE8aqWeEPA/zIi2Ufc8YuWgogIQihdDkUKeM6oGGpESDsNqMYjhqAVJ2EgIKBFj9RePVGoey7XP+nfGk7Qb2bFNJCT0I5Gwz814FsJxc7XhjHR9mfplSiI49CT8YuGdBFDtXVbtmKjRdtjadq9Xoqd5S5arexqgtsEnEXvWzbiZlzp2LHQDjV0XtoeUKxYUhNaRgzZea6nKhC45+paURetFzCum+9+WSsIH24EA2XSF7ebSkfE0zcw/mVSs6klm2m8MMqbkUVcxUdQhNynmrE35cDbspKV9szqRmCRJTn2fQekbw+oK6PVtcPWzcJ1TP0jIxE8oueKQ61AISkGmKXQVvgme1AEFF0RbgF0GNkpKirr7rErqhfcUkpLTp5SI+DflktZDb2MuRA96HFN9TdmB19jH0TJ2oNWddmzmcGPz/7ohQREz1Modu0MjFm7Cpd1xPDR0B/n3ueP5j7vj3zZH8JxNEo641HtKi6+Efa33LbmEO0cie+7tfWVyW3EeR+Uth2oRNM6daGZY43cs8RmyyJ/rdMJDVKft8QaqOXZDvOSZPjpcmpebpc/6Nb7YvvCIZge8T7PTHqGJ3BHOWIJ+lEumPWpTUClknF49SWLd4yvJuKifcNdURXZA8lL/vQemQmAGm2k5O/7Fke2Mc3Q1kaNohhydOBTqV+evDxX5myFU/99BxePjI9pn2fHrU8X44v3FHVN156Gqi+fPrybW+8TFL38B&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+
+
+<script type="text/javascript" src="https://www.draw.io/embed2.js?s=basic&"></script>
+
+
+<h2>Overview</h2>
+
+<p>リングバッファクラス。リングバッファ？なときは<a href="https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%B3%E3%82%B0%E3%83%90%E3%83%83%E3%83%95%E3%82%A1">コチラ</a>。back -> front の向きは時計回り。<br/>
+<code>push_front()/back()</code>、<code>pop_front()/back()</code>がO(1)で可能。ランダムアクセスもOk。要素数（<code>size()</code>)が最大容量(<code>capacity()</code>)を超えると、front/backの要素から順に書き換わる。今のところinsert系のメソッドは無し。<br/>
+indexの正規化をビット演算で行うために最大容量は必ず2の冪乗になるが、内１つ分はダミー領域（イテレータの都合で...）となるので、実質使用できるのは２^n - 1の容量となる。</p>
+
+<h3>File Organization</h3>
+
+<pre><code>    dlib_cc/
+        |
+        Classes/
+            |
+            ring_buffer/
+                |
+                + ring_buffer.h
+                + impl.h
+                + iterators.h
+                - tutorial.cpp
+</code></pre>
+
+<h3>Namespace</h3>
+
+<pre><code>    namespace dlib
+    {
+        template &lt;typename T&gt; class forked_linked_list;
+
+        namespace ring_buffer_bits
+        {
+            template &lt;typename T&gt; struct iterator;
+            template &lt;typename T&gt; struct const_iterator;
+        }
+    }
+</code></pre>
+
+<p>イテレータは別の名前空間に入っている（ファイルを分けるために）が、<code>ring_buffer</code>クラス内でエイリアスを定義してあるので、<code>ring_buffer&lt;T&gt;::iterator</code>で使用できる（というよりコッチを使って欲しい）。<code>begin()</code>はfrontの要素を指し、<code>end()</code>はbackの次の要素を指す。</p>
+
+<h3>Public Methods</h3>
+
+<ul>
+<li><code>ring_buffer()</code></li>
+<li><code>ring_buffer(size_t size, T def_value = T())</code></li>
+<li><code>ring_buffer(size_t size, size_t cap_request, T def_value)</code></li>
+<li><p><code>ring_buffer(const ring_buffer&amp; other)</code></p>
+
+<p>  コンストラクタs。第2、第3コンストラクタはfillコンストラクタで、<strong>size</strong>だけ<strong>def_value</strong>で埋める。<strong>cap_request</strong>には最大容量を指定するが、希望通りになるかは分からない。<strong>cap_request + 1 &lt;= 2^n</strong> を満たす最小の2^nが最大容量になる(+1はダミー領域の分)。<br/>
+  また、<strong>cap_request &lt; size</strong> の場合はassert:エラー。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><code>void change_capacity(size_t cap_request)</code></li>
+<li><code>void expand_capacity(size_t cap_request)</code></li>
+<li><p><code>void shrink_capacity(size_t cap_request)</code></p>
+
+<p>  最大容量のサイズを変更する。要素の並びは変わらない。<strong>change</strong>は内部で<strong>expand</strong>か<strong>shrink</strong>を呼び出している。<strong>shrink</strong>は、新しい最大容量が要素数よりも小さい場合、入りきらない要素をbackの方から削っていく。<br/>
+  また、要素の入っていない部分はみ初期化なので、そこにアクセスした時の動作は未定義(何かしらの値が帰ってくるハズ)。<br/>
+  <strong>cap_request</strong>には新しい最大容量の希望の値を渡す。実際には、<strong>cap_request + 1 &lt;= 2^n</strong> を満たす最小の2^nが最大容量になる。</p>
+
+<p>  <strong>実際に使用できる容量は2^n - 1であることに注意！！</strong></p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><code>void push_back(T value)</code></li>
+<li><p><code>void push_front(T value)</code></p>
+
+<p>  front/backに要素を追加する。要素数が溢れた時は、例えば<strong>push_back</strong>の場合、frontの要素が書き換わり、frontの直前だった要素がfrontになる。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><code>T pop_back()</code></li>
+<li><p><code>T pop_front()</code></p>
+
+<p>  front/backの要素を削除する。メモリは解放されない。<strong>size()</strong> が0でもエラーにはならないよ。<br/>
+  あと、削除した要素のデストラクタが呼ばれる。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><code>T&amp; operator[](size_t index)</code></li>
+<li><p><code>const T&amp; operator[](size_t index) const</code></p>
+
+<p>  要素にアクセスする基本の手段。<strong>operator[0]</strong>は常に<strong>front()</strong>と同じ要素を指す。つまり、<strong>index</strong>には、frontを0として考えた時のインデックスを渡す。また、リングバッファなので、<strong>out-of-range</strong> みたいなことは起こらず、たとえ最大容量を超えたインデックスを渡したとしても正規化されるので大丈夫(一周しても戻ってくる)。front &lt;-> back 間の要素以外にもアクセスできるが、未初期化部分なのでどうなるかは知らない。<br/>
+  添字演算子で値を追加/削除しても<strong>size()</strong>や<strong>front()</strong>、<strong>back()</strong>等に反映されないので、<strong>危険</strong>です。やめてください。。。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><code>T front() const</code></li>
+<li><p><code>T back() const</code></p>
+
+<p>  front/backの値をそれぞれ返却する。<strong>size()</strong>が0の場合、<strong>T()</strong>を返す。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><p><code>void clear()</code></p>
+
+<p>  要素を全て削除する。各要素のデストラクタは呼ばれるが、メモリの開放はしない。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><p><code>size_t capacity() const</code></p>
+
+<p>  <strong>正味</strong>の最大容量を返す。つまり、<strong>2^ - 1</strong> のコト。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><p><code>size_t size() const</code></p>
+
+<p>  要素数を返す。当たり前だけど、常に <strong>size() &lt;= capacity()</strong> 。</p></li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li><code>iterator begin()</code></li>
+<li><code>const_iterator begin() const</code></li>
+<li><code>const_iterator cbegin() const</code></li>
+<li><code>iterator end()</code></li>
+<li><code>const_iterator end() const</code></li>
+<li><p><code>const_iterator cend() const</code></p>
+
+<p>  イテレータの取得メソッドs。<strong>begin</strong>はfrontを指し、<strong>end</strong>はbackの次(ダミー領域)を指す。<br/>
+  リングバッファなので、<strong>++end()</strong>を繰り返せばいずれ<strong>begin</strong>に戻ることに注意。</p></li>
+</ul>
+
+
+<hr />
+
+<h3>How To Use ?</h3>
+
+<p><strong>基本</strong></p>
+
+<pre><code>    dlib::ring_buffer&lt;int&gt; buffer();                  // &lt;- default, size() and capacity() is 0
+    dlib::ring_buffer&lt;int&gt; buffer2(10, 6);            // &lt;- size() is 10, capacity() is 15
+    dlib::ring_buffer&lt;int&gt; buffer3(10, 16, 6);        // &lt;- size() is 10, capacity() is 31
+    dlib::ring_buffer&lt;int&gt; buffer4(buffer);           // &lt;- copy constructor  
+
+    buffer2.push_front(10);                           // &lt;- append '10' to the front of the buffer
+    buffer2.push_back(10);                            // &lt;- append '10' to the back of the buffer
+
+    int x = buffer2.front();                          // &lt;- get the first element of the buffer
+    int y = buffer2[0];                               // &lt;- this is same as 'buffer.front()'
+
+    buffer2.pop_front();                              // &lt;- remove the first element of the buffer
+    buffer2.pop_back();                               // &lt;- remove the last element of the buffer
+
+    buffer2.expand_capacity(buffer.capacity() * 2);   // &lt;- size() is 10, capacity() is 31
+    buffer2.shrink_capacity(5);                       // &lt;- size() is 7, capacity() is 7
+
+    buffer2.clear();                                  // &lt;- size() is 0, capacity() is 7
+</code></pre>
+
+<p><strong>Iterators</strong></p>
+
+<pre><code>    // navigate through a ring-buffer from front to back using iterators
+    for(auto itr = buffer2.begin(); itr != buffer2.end(); ++itr)
+    {
+        std::cout &lt;&lt; "data -&gt; " &lt;&lt; *itr &lt;&lt; '\n';
+    }
+
+    // the following codes is the same as above...
+    for(size_t i = 0; i &lt; buffer2.size(); ++i)
+    {
+        std::cout &lt;&lt; "data -&gt; " &lt;&lt; buffer2[i] &lt;&lt; '\n';
+    }
+</code></pre>
+</body>
+</html>
