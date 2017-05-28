@@ -32,18 +32,20 @@ ring_buffer<T>::ring_buffer()
 {}
 
 template <typename T>
-ring_buffer<T>::ring_buffer(size_type size, T def_value)
+ring_buffer<T>::ring_buffer(size_t size, T def_value)
 :ring_buffer()
 {
-	expand_capacity(size, def_value);
+	// expand_capacity(size);
+	init(size, size, def_value);
 }
 
 template <typename T>
-ring_buffer<T>::ring_buffer(size_type size, size_type cap_request, T def_value)
+ring_buffer<T>::ring_buffer(size_t size, size_t cap_request, T def_value)
 :ring_buffer()
 {
-	assert(size <= cap_request);
-	expand_capacity(cap_request, def_value);
+	// assert(size <= cap_request);
+	// expand_capacity(cap_request);
+	init(size, cap_request, def_value);
 }
 
 template <typename T>
@@ -87,20 +89,20 @@ ring_buffer<T>& ring_buffer<T>::operator=(const ring_buffer<T> &other)
 }
 
 template <typename T>
-void ring_buffer<T>::change_capacity(size_type cap_request, T def_value)
+void ring_buffer<T>::change_capacity(size_t cap_request)
 {
 	if(capacity() < cap_request)
 	{
-		expand_capacity(cap_request, def_value);
+		expand_capacity(cap_request);
 	}
 	else if(cap_request < capacity())
 	{
-		shrink_capacity(cap_request, def_value);
+		shrink_capacity(cap_request);
 	}
 }
 
 template <typename T>
-void ring_buffer<T>::expand_capacity(size_type cap_request, T def_value)
+void ring_buffer<T>::expand_capacity(size_t cap_request)
 {
 	auto capacity = confirm_capacity(cap_request);
 	if(gross_capacity_ < capacity)
@@ -118,7 +120,7 @@ void ring_buffer<T>::expand_capacity(size_type cap_request, T def_value)
 }
 
 template <typename T>
-void ring_buffer<T>::shrink_capacity(size_type cap_request, T def_value)
+void ring_buffer<T>::shrink_capacity(size_t cap_request)
 {
 	// this is gross-capacity
 	auto capacity = confirm_capacity(cap_request);
@@ -224,7 +226,7 @@ T ring_buffer<T>::pop_front()
 }
 
 template <typename T>
-T& ring_buffer<T>::operator[](index_type index)
+T& ring_buffer<T>::operator[](size_t index)
 {
 	assert(data_ != nullptr);
 	// NOTE -> (*this)[0] is always returns a reference to the front element in ring_buffer.
@@ -232,7 +234,7 @@ T& ring_buffer<T>::operator[](index_type index)
 }
 
 template <typename T>
-const T& ring_buffer<T>::operator[](index_type index)
+const T& ring_buffer<T>::operator[](size_t index)
 const
 {
 	assert(data_ != nullptr);
@@ -244,7 +246,7 @@ template <typename T>
 void ring_buffer<T>::clear()
 {
 	// clear() does not free memories
-	for(index_type i = 0; i < size_; ++i)
+	for(size_t i = 0; i < size_; ++i)
 	{
 		allocator_.destroy(&(*this)[i]);
 	}
@@ -254,7 +256,7 @@ void ring_buffer<T>::clear()
 }
 
 template <typename T>
-typename ring_buffer<T>::size_type ring_buffer<T>::capacity()
+size_t ring_buffer<T>::capacity()
 const
 {
 	// return a net-capacity.
@@ -267,7 +269,7 @@ void ring_buffer<T>::free_memory()
 	// deallocate memory and reset parameters
 	if(data_ != nullptr)
 	{
-		for(index_type i = 0; i < size_; ++i)
+		for(size_t i = 0; i < size_; ++i)
 		{
 			allocator_.destroy(&(*this)[i]);
 		}
@@ -278,7 +280,7 @@ void ring_buffer<T>::free_memory()
 }
 
 template <typename T>
-typename ring_buffer<T>::index_type ring_buffer<T>::normalize_index(index_type index)
+size_t ring_buffer<T>::normalize_index(size_t index)
 const
 {
 	if(gross_capacity_ == 0)
@@ -293,19 +295,40 @@ const
 }
 
 template <typename T>
-typename ring_buffer<T>::size_type ring_buffer<T>::confirm_capacity(size_type cap_request)
+size_t ring_buffer<T>::confirm_capacity(size_t cap_request)
 {
 	if(cap_request == 0)
 	{
 		return 0;
 	}
 
-	size_type capacity = 0;
+	size_t capacity = 0;
 	cap_request += kNumDummyMemory;
 	// NOTE -> gross_capacity_ must always be 2^n !!
 	for(; capacity < cap_request; capacity = (capacity == 0) ? 1 : capacity * kCapacityBase);
 
 	return capacity;
+}
+
+template <typename T>
+void ring_buffer<T>::init(size_t size, size_t cap_request, T def_value)
+{
+	assert(size <= cap_request);
+
+	if(data_ == nullptr)
+	{
+		auto capacity = confirm_capacity(cap_request);
+		if(capacity != 0)
+		{
+			data_ = allocator_.allocate(size);
+			std::uninitialized_fill(data_, data_ + size, def_value);
+		}
+
+		gross_capacity_ = capacity;
+		size_ = size;
+		front_ = 0;
+		back_ = (size == 0) ? 0 : size - 1;
+	}
 }
 
 } /* namespace dlib */

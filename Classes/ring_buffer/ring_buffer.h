@@ -14,33 +14,29 @@ namespace dlib
 
 template <typename T> class ring_buffer
 {
-	using index_type = size_t;
-	using size_type = size_t;
 	using iterator = ring_buffer_bits::iterator<T>;
 	using const_iterator = ring_buffer_bits::const_iterator<T>;
 
 public:
 	ring_buffer();
-	ring_buffer(size_type size, T def_value = T());
-	ring_buffer(size_type size, size_type cap_request, T def_value);
+	ring_buffer(size_t size, T def_value = T());
+	ring_buffer(size_t size, size_t cap_request, T def_value);
 	ring_buffer(const ring_buffer& other);
 	ring_buffer& operator=(const ring_buffer& other);
-	void change_capacity(size_type cap_request, T def_value = T());
-	void expand_capacity(size_type cap_request, T def_value = T());
-	void shrink_capacity(size_type cap_request, T def_value = T());
+	void change_capacity(size_t cap_request);
+	void expand_capacity(size_t cap_request);
+	void shrink_capacity(size_t cap_request);
 	void push_back(T value);
 	void push_front(T value);
 	T pop_back();
 	T pop_front();
-	T& operator[](index_type index);
-	const T& operator[](index_type index) const;
+	T& operator[](size_t index);
+	const T& operator[](size_t index) const;
 	T front() const { return (size_ != 0) ? data_[front_] : T(); }
 	T back() const { return (size_ != 0) ? data_[back_] : T(); }
 	void clear();
-	size_type capacity() const;
-
-	size_type size() const { return size_; }
-	const T* data() const { return data_; }
+	size_t capacity() const;
+	size_t size() const { return size_; }
 
 	// iterators
 	// return an iterator pointing the front element
@@ -53,17 +49,18 @@ public:
 	const_iterator cend() const { return std::move(end()); }
 
 private:
-	index_type front_;
-	index_type back_;
-	size_type size_;
+	size_t front_;
+	size_t back_;
+	size_t size_;
 	// net-capacity + the number of dummy memory
-	size_type gross_capacity_;
+	size_t gross_capacity_;
 	T* data_;
 	std::allocator<T> allocator_;
 
 	void free_memory();
-	index_type normalize_index(index_type index) const;
-	size_type confirm_capacity(size_type cap_request);
+	size_t normalize_index(size_t index) const;
+	size_t confirm_capacity(size_t cap_request);
+	void init(size_t size, size_t cap_request, T def_value = T());
 
 	// iterators (private)
 	iterator begin_strage() { return std::move(iterator(this, gross_capacity_ - front_)); }
