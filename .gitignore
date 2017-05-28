@@ -8,3 +8,4 @@ Classes/*/*.gch
 # others...
 .gitignore~
 .tags*
+.DS_Store
