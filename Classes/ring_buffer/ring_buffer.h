@@ -37,7 +37,6 @@ public:
 	T front() const { return (size_ != 0) ? data_[front_] : T(); }
 	T back() const { return (size_ != 0) ? data_[back_] : T(); }
 	void clear();
-	void free_memory();
 	size_type capacity() const;
 
 	size_type size() const { return size_; }
@@ -66,6 +65,7 @@ private:
 	T* data_;
 	std::allocator<T> allocator_;
 
+	void free_memory();
 	index_type normalize_index(index_type index) const;
 	size_type confirm_capacity(size_type cap_request);
 };

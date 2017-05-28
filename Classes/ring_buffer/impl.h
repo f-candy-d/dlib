@@ -51,12 +51,7 @@ ring_buffer<T>::ring_buffer(const ring_buffer& other)
 {
 	if(other.data_ != nullptr)
 	{
-		// data_ = new T[other.gross_capacity_];
 		data_ = allocator_.allocate(other.gross_capacity_);
-		// for(index_type i = 0; i < other.gross_capacity_; ++i)
-		// {
-		// 	data_[i] = other.data_[i];
-		// }
 		std::uninitialized_copy(other.begin_strage(), other.end_strage(), data_);
 	}
 	else
@@ -75,12 +70,7 @@ ring_buffer<T>& ring_buffer<T>::operator=(const ring_buffer<T> &other)
 {
 	if(other.data_ != nullptr)
 	{
-		// data_ = new T[other.gross_capacity_];
 		data_ = allocator_.allocate(other.gross_capacity_);
-		// for(index_type i = 0; i < other.gross_capacity_; ++i)
-		// {
-		// 	data_[i] = other.data_[i];
-		// }
 		std::uninitialized_copy(other.begin_strage(), other.end_strage(), data_);
 	}
 	else
@@ -115,11 +105,6 @@ void ring_buffer<T>::expand_capacity(size_type cap_request, T def_value)
 	auto capacity = confirm_capacity(cap_request);
 	if(gross_capacity_ < capacity)
 	{
-		// T* data = new T[capacity];
-		// for(index_type i = 0; i < size_; ++i)
-		// {
-		// 	data[i] = (*this)[i];
-		// }
 		T* data = allocator_.allocate(capacity);
 		std::uninitialized_copy_n(begin(), size_, data);
 
@@ -127,10 +112,7 @@ void ring_buffer<T>::expand_capacity(size_type cap_request, T def_value)
 		front_ = 0;
 		back_ = (size_ == 0) ? 0 : size_ - 1;
 
-		if(data_ != nullptr)
-		{
-			delete [] data_;
-		}
+		free_memory();
 		data_ = data;
 	}
 }
@@ -144,26 +126,21 @@ void ring_buffer<T>::shrink_capacity(size_type cap_request, T def_value)
 	if(capacity < kNumDummyMemory)
 	{
 		free_memory();
+		front_ = 0;
+		back_ = 0;
+		size_ = 0;
+		gross_capacity_ = 0;
 	}
 	else if(capacity < gross_capacity_)
 	{
-		// T* data = new T[capacity];
-		// for(index_type i = 0; i < capacity; ++i)
-		// {
-		// 	data[i] = (*this)[i];
-		// }
-		T* data = allocator_.allocate(capacity);
-		std::uninitialized_copy_n(begin(), capacity - kNumDummyMemory, data);
-
 		gross_capacity_ = capacity;
-		size_ = capacity - kNumDummyMemory;
+		size_ = (size_ < this->capacity()) ? size_ : this->capacity();
 		front_ = 0;
 		back_ = this->capacity() - 1;
 
-		if(data_ != nullptr)
-		{
-			delete [] data_;
-		}
+		T* data = allocator_.allocate(capacity);
+		std::uninitialized_copy_n(begin(), size_, data);
+		free_memory();
 		data_ = data;
 	}
 }
@@ -185,7 +162,6 @@ void ring_buffer<T>::push_back(T value)
 		// front != back
 		back_ = normalize_index(back_ + 1);
 		data_[back_] = std::move(value);
-		// front_ = (front_ == back_) ? normalize_index(front_ + 1) : front_;
 		front_ = (front_ == normalize_index(back_ + kNumDummyMemory)) ? normalize_index(front_ + 1) : front_;
 		size_ = (size_ < capacity()) ? size_ + 1 : size_;
 	}
@@ -210,7 +186,6 @@ void ring_buffer<T>::push_front(T value)
 		//         because front_ is size_t and it is not be a negative number.
 		front_ = (front_ < 1) ? gross_capacity_ - 1 : front_ - 1;
 		data_[front_] = std::move(value);
-		// back_ = (front_ == back_) ? ((back_ < 1) ? gross_capacity_ - 1 : back_ - 1) : back_;
 		back_ = (((front_ < 1) ? gross_capacity_ - 1 : front_ - 1) == back_)
 				? ((back_ < 1) ? gross_capacity_ - 1 : back_ - 1)
 				: back_;
@@ -224,7 +199,7 @@ T ring_buffer<T>::pop_back()
 	if(0 < size_)
 	{
 		auto data = data_[back_];
-		data_[back_] = 0;
+		allocator_.destroy(&data_[back_]);
 		back_ = (back_ < 1) ? gross_capacity_ - 1 : back_ - 1;
 		--size_;
 		return data;
@@ -239,7 +214,7 @@ T ring_buffer<T>::pop_front()
 	if(0 < size_)
 	{
 		auto data = data_[front_];
-		data_[front_] = 0;
+		allocator_.destroy(&data_[front_]);
 		front_ = normalize_index(front_ + 1);
 		--size_;
 		return data;
@@ -268,24 +243,14 @@ const
 template <typename T>
 void ring_buffer<T>::clear()
 {
-	// clear() does not free memory
+	// clear() does not free memories
+	for(index_type i = 0; i < size_; ++i)
+	{
+		allocator_.destroy(&(*this)[i]);
+	}
 	size_ = 0;
 	front_ = 0;
 	back_ = 0;
-}
-
-template <typename T>
-void ring_buffer<T>::free_memory()
-{
-	// deallocate memory and reset parameters
-	if(data_ != nullptr)
-	{
-		delete [] data_;
-		data_ = nullptr;
-	}
-
-	gross_capacity_ = 0;
-	clear();
 }
 
 template <typename T>
@@ -294,6 +259,22 @@ const
 {
 	// return a net-capacity.
 	return (gross_capacity_ < kNumDummyMemory) ? 0 : gross_capacity_ - kNumDummyMemory;
+}
+
+template <typename T>
+void ring_buffer<T>::free_memory()
+{
+	// deallocate memory and reset parameters
+	if(data_ != nullptr)
+	{
+		for(index_type i = 0; i < size_; ++i)
+		{
+			allocator_.destroy(&(*this)[i]);
+		}
+
+		allocator_.deallocate(data_, gross_capacity_);
+		data_ = nullptr;
+	}
 }
 
 template <typename T>
