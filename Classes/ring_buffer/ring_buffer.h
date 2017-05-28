@@ -49,12 +49,6 @@ public:
 	iterator end() { return std::move(iterator(this, size_)); }
 	const_iterator end() const { return std::move(const_iterator(this, size_)); }
 	const_iterator cend() const { return std::move(end()); }
-	iterator begin_strage() { return std::move(iterator(this, gross_capacity_ - front_)); }
-	const_iterator begin_strage() const { return std::move(const_iterator(this, gross_capacity_ - front_)); }
-	const_iterator cbegin_strage() const { return std::move(begin()); }
-	iterator end_strage() { return std::move(iterator(this, 2 * gross_capacity_ - front_)); }
-	const_iterator end_strage() const { return std::move(const_iterator(this, 2 * gross_capacity_ - front_)); }
-	const_iterator cend_strage() const { return std::move(end()); }
 
 private:
 	index_type front_;
@@ -68,6 +62,14 @@ private:
 	void free_memory();
 	index_type normalize_index(index_type index) const;
 	size_type confirm_capacity(size_type cap_request);
+
+	// iterators (private)
+	iterator begin_strage() { return std::move(iterator(this, gross_capacity_ - front_)); }
+	const_iterator begin_strage() const { return std::move(const_iterator(this, gross_capacity_ - front_)); }
+	const_iterator cbegin_strage() const { return std::move(begin()); }
+	iterator end_strage() { return std::move(iterator(this, 2 * gross_capacity_ - front_)); }
+	const_iterator end_strage() const { return std::move(const_iterator(this, 2 * gross_capacity_ - front_)); }
+	const_iterator cend_strage() const { return std::move(end()); }
 };
 
 } /* namespace dlib */
