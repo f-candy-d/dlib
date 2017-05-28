@@ -43,9 +43,11 @@ public:
 	const T* data() const { return data_; }
 
 	// iterators
+	// return an iterator pointing the front element
 	iterator begin() { return std::move(iterator(this, 0)); }
 	const_iterator begin() const { return std::move(const_iterator(this, 0)); }
 	const_iterator cbegin() const { return std::move(begin()); }
+	// return an iterator pointing the back element
 	iterator end() { return std::move(iterator(this, size_)); }
 	const_iterator end() const { return std::move(const_iterator(this, size_)); }
 	const_iterator cend() const { return std::move(end()); }
