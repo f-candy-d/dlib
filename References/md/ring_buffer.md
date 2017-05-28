@@ -150,7 +150,7 @@ indexの正規化をビット演算で行うために最大容量は必ず2の�
 	
 **Iterators**  
 
-		// navigate through a ring-buffer from front to back using iterators
+		// navigate through the front element of a buffer to the back element of that
 		for(auto itr = buffer2.begin(); itr != buffer2.end(); ++itr)
 		{
 			std::cout << "data -> " << *itr << '\n';
