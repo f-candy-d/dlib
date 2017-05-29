@@ -49,15 +49,22 @@ public:
 	}
 
 	normarized_int& operator-=(int distance) { return *this += -distance; }
-	normarized_int& operator++() { return *this += 1; }
+	// this is faster than operator+=(1)
+	normarized_int& operator++() { offset_ = (offset_ + 1) % length_; return *this; }
 	normarized_int operator++(int) { auto nu = *this; ++*this; return nu; }
-	normarized_int& operator--() { return *this -= 1; }
+	// this is faster than operator-=(1)
+	normarized_int& operator--() { offset_ = (offset_ == 0) ? length_ - 1 : offset_ - 1; return *this; }
 	normarized_int operator--(int) { auto nu = *this; --*this; return nu; }
 	normarized_int operator+(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int operator-(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int& advance(int distance) { return *this += distance; }
 
-	void f() { offset_ = (offset_ + 1) % length_; }
+	// this is faster than operator+=(+n)
+	normarized_int& forward(size_t distance) { offset_ = (offset_ + distance) % length_; return *this; }
+	// this is faster than operator++() (a little bit.)
+	virtual void fast_incr() { offset_ = (offset_ + 1) % length_; }
+	// this is faster than operator--() (a little bit.)
+	virtual void fast_decr() { offset_ = (offset_ == 0) ? length_ - 1 : offset_ - 1; }
 
 	void reset(int begin, size_t length) { reset(begin, length, begin); }
 
