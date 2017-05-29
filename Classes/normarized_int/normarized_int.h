@@ -4,7 +4,6 @@
 #ifndef DLIB_CLASSES_NORMARIZED_INT_NORMARIZED_INT_H
 #define DLIB_CLASSES_NORMARIZED_INT_NORMARIZED_INT_H
 
-#include <cstdio>
 #include <cassert>
 #include <utility>
 
