@@ -1,11 +1,12 @@
 /**
  * normarized_int class
  */
-#ifndef DLIB_CLASSES_NORMARIZED_UINT_NORMARIZED_UINT_H
-#define DLIB_CLASSES_NORMARIZED_UINT_NORMARIZED_UINT_H
+#ifndef DLIB_CLASSES_NORMARIZED_INT_NORMARIZED_INT_H
+#define DLIB_CLASSES_NORMARIZED_INT_NORMARIZED_INT_H
 
 #include <cstdio>
 #include <cassert>
+#include <utility>
 
 namespace dlib
 {
@@ -21,12 +22,12 @@ public:
 	:normarized_int(begin, length, begin)
 	{}
 
-	normarized_int(int begin, size_t length, int position)
-	:offset_(position - begin),begin_(begin),length_(length)
+	normarized_int(int begin, size_t length, int def_v)
+	:offset_(def_v - begin),begin_(begin),length_(length)
 	{
 		assert(length != 0);
-		assert(begin <= position);
-		assert(position < begin + static_cast<int>(length));
+		assert(begin <= def_v);
+		assert(def_v < begin + static_cast<int>(length));
 	}
 
 	int operator*() const { return begin_ + offset_; }
@@ -53,19 +54,19 @@ public:
 	normarized_int operator++(int) { auto nu = *this; ++*this; return nu; }
 	normarized_int& operator--() { return *this -= 1; }
 	normarized_int operator--(int) { auto nu = *this; --*this; return nu; }
-	normarized_int operator+(int distance) & { auto nu = *this; nu += distance; return nu; }
-	normarized_int operator-(int distance) & { auto nu = *this; nu -= distance; return nu; }
+	normarized_int operator+(int distance) & { auto nu = *this; return std::move(nu += distance); }
+	normarized_int operator-(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int& advance(int distance) { return *this += distance; }
 
 	void reset(int begin, size_t length) { reset(begin, length, begin); }
 
-	void reset(int begin, size_t length, int position)
+	void reset(int begin, size_t length, int def_v)
 	{
 		assert(length != 0);
-		assert(begin <= position);
-		assert(position < begin + static_cast<int>(length));
+		assert(begin <= def_v);
+		assert(def_v < begin + static_cast<int>(length));
 
-		offset_ = position - begin;
+		offset_ = def_v - begin;
 		begin_ = begin;
 		length_ = length;
 	}
@@ -74,7 +75,7 @@ public:
 	int end() const { return begin_ + length_ - 1;}
 	size_t length() const { return length_; }
 
-private:
+protected:
 	int offset_;
 	int begin_;
 	size_t length_;
