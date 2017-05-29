@@ -47,14 +47,17 @@ public:
 		return *this;
 	}
 
-	normarized_int_optimized_pow2& operator-=(int distance) { normarized_int::operator-=(distance); return *this; }
-	normarized_int_optimized_pow2& operator++() { normarized_int::operator++(); return *this; }
+	normarized_int_optimized_pow2& operator-=(int distance) { return *this += -distance; }
+	normarized_int_optimized_pow2& operator++() { return *this += 1; }
 	normarized_int_optimized_pow2 operator++(int) { auto nu = *this; ++*this; return nu; }
-	normarized_int_optimized_pow2& operator--() { normarized_int::operator--(); return *this; }
+	normarized_int_optimized_pow2& operator--() { return *this -= 1; }
 	normarized_int_optimized_pow2 operator--(int) { auto nu = *this; --*this; return nu; }
-	normarized_int_optimized_pow2 operator+(int distance) { auto nu = *this; return std::move(nu += distance); }
-	normarized_int_optimized_pow2 operator-(int distance) { auto nu = *this; return std::move(nu -= distance); }
+	normarized_int_optimized_pow2 operator+(int distance) & { auto nu = *this; return std::move(nu += distance); }
+	normarized_int_optimized_pow2 operator-(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int_optimized_pow2& advance(int distance) { return *this += distance; }
+
+	normarized_int_optimized_pow2& forward(int distance) { normarized_int::offset_ = (normarized_int::offset_ + distance) & (normarized_int::length_ - 1); return *this; }
+	void fforward() { normarized_int::offset_ = (normarized_int::offset_ + 1) & (normarized_int::length_ - 1); }
 
 	void reset(int begin, size_t length) { reset(begin, length, begin); }
 

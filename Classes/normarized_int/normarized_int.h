@@ -57,6 +57,8 @@ public:
 	normarized_int operator-(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int& advance(int distance) { return *this += distance; }
 
+	void f() { offset_ = (offset_ + 1) % length_; }
+
 	void reset(int begin, size_t length) { reset(begin, length, begin); }
 
 	void reset(int begin, size_t length, int def_v)
