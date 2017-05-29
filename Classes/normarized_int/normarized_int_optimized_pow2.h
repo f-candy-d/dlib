@@ -54,6 +54,7 @@ public:
 	// this is faster than operator-=(1)
 	normarized_int_optimized_pow2& operator--() { normarized_int::offset_ = (normarized_int::offset_ == 0) ? length_ - 1 : normarized_int::offset_ - 1; return *this; }
 	normarized_int_optimized_pow2 operator--(int) { auto nu = *this; --*this; return nu; }
+
 	normarized_int_optimized_pow2 operator+(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int_optimized_pow2 operator-(int distance) & { auto nu = *this; return std::move(nu += distance); }
 	normarized_int_optimized_pow2& advance(int distance) { return *this += distance; }
